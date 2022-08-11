@@ -13,6 +13,6 @@ int main(){
 
     cout << "\n" << endl;
 
-    if(n>=1) cout << (n*(n+1))/2 << endl;
+    if(n>=1) cout << (n*(n+1))/2 << endl; // Aplies the mathematical function to sum all the numbres to n
     else cout << 0 << endl;
 }
