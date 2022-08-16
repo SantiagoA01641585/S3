@@ -11,7 +11,7 @@ vector <int> mergeVector(vector<int> a, vector <int> b){
 
     while (conta<a.size() || contb<b.size()){
         if(a[conta]<b[contb]){
-            if(conta<a.size())res.push_back(a[conta]);
+            if(conta<a.size()) res.push_back(a[conta]);
             conta++;
             continue;
         }
