@@ -15,7 +15,7 @@ vector <int> exchangeSort(vector <int> input){
         }
     }
 
-    return input;
+    return input; // Returns the ordered vector
 }
 
 int main(){

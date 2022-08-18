@@ -13,7 +13,7 @@ vector <int> bubbleSort(vector <int> input){
         }
     }
 
-    return input;
+    return input; // Returns the ordered vector
 }
 
 int main(){
