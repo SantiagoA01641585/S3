@@ -5,6 +5,15 @@ using namespace std;
 
 vector <int> bubbleSort(vector <int> input){
 
+    for (int i=0; i<input.size()-1; i++){ // Iterates trough the vector
+        if(input[i+1] < input[i]){ // Compares the iterated element with the next one and if it is greater they swap
+            int temp = input[i];
+            input[i] = input[i+1]; // Swap method
+            input[i+1] = temp;
+        }
+    }
+
+    return input;
 }
 
 int main(){
