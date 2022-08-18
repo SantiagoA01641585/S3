@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// Computational complexity of the exchange sort = O(n^2)
+
 vector <int> exchangeSort(vector <int> input){
 
     for(int i=0; i<input.size(); i++){ // Iterates trough the vector

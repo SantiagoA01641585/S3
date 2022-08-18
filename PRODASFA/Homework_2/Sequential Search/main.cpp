@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// Computational complexity of the sequential search = O(n)
+
 int sequentialSearch(int search, vector <int> input){ 
 
     for (int i=0; i<input.size(); i++){ // Iterates trough the vector

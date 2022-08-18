@@ -3,6 +3,10 @@
 
 using namespace std;
 
+// Computational complexity of the merge sort = O(nlog(n))
+// Computational complexity of the binary search = O(log(n))
+// Total computational complexity = O(nlog(n) + log(n)) = O(nlog(n))
+
 vector <int> mergeVectors(vector <int> a, vector <int> b){ // Function that merges two given ordered vectors
 
     int conta, contb; // Creates and initializates two counters for each vector
@@ -80,7 +84,6 @@ int main(){
     // 1 2 4 7 8 9 10
 
     int ans = binarySearch(2, b); // Result of the search
-    //int ans = 0;
 
     if (ans > -1) { // If it is found say where in the console
         cout << "Number found at " << ans << "!";

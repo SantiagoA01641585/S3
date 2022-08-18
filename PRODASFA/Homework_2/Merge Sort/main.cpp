@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// Computational complexity of the merge sort = O(nlog(n))
+
 vector <int> mergeVectors(vector <int> a, vector <int> b){ // Function that merges two given ordered vectors
 
     int conta, contb; // Creates and initializates two counters for each vector
