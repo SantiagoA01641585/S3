@@ -5,10 +5,10 @@ using namespace std;
 
 vector <int> exchangeSort(vector <int> input){
 
-    for(int i=0; i<input.size(); i++){ // Recorre todo el vector
-        for(int j=i+1; j<input.size(); j++){ // Recorre el resto del vector hacia la derecha
-            if(input[j]<input[i]){ // Compara el primer y el primer numero y si el posterior es menor se intercambian
-                int temp = input[i]; // Método de intercambio
+    for(int i=0; i<input.size(); i++){ // Iterates trough the vector
+        for(int j=i+1; j<input.size(); j++){ // Goes trough the rest of the vector on the right
+            if(input[j]<input[i]){ // Compares both numbers and if the second one is greater they swap
+                int temp = input[i]; // Exchange method
                 input[i] = input[j];
                 input[j] = temp;
             }
@@ -20,12 +20,12 @@ vector <int> exchangeSort(vector <int> input){
 
 int main(){
 
-    vector <int> a = {1, 4, 2, 9, 7, 8, 10}; // Vector prueba
+    vector <int> a = {1, 4, 2, 9, 7, 8, 10}; // Test vector
 
-    vector <int> b = exchangeSort(a); // Resultado
+    vector <int> b = exchangeSort(a); // Result
 
     for (auto e:b){
-        cout << e << " "; // Impresión de los elementos del nuevo vector
+        cout << e << " "; // Prints the elements of the vector
     }
 
 }
