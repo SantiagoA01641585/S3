@@ -25,7 +25,7 @@ int main(){
     vector <int> b = exchangeSort(a); // Result
 
     for (auto e:b){
-        cout << e << " "; // Prints the elements of the vector
+        cout << e << " "; // Prints the elements of the new vector
     }
 
 }
