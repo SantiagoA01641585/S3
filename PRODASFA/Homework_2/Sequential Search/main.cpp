@@ -26,5 +26,5 @@ int main(){
     else { // If not, say so
         cout << "Number not found.";
     }
- 
+
 }
