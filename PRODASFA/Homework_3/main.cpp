@@ -72,7 +72,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
         }
 
         // Métodos
-        void insertAfter(int pos, T value){ // Insertar un valor al lado derecho de una posición
+        void insertAfter(int pos, T value){ // Insertar un valor al lado derecho de una posición (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -101,7 +101,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             head = current; // La cabeza (es decir, la lista) se vuelve el nuevo nodo que eventualmente sera referenciado por otro elemento ligado a la cabeza o ella misma
         }
 
-        void insertBefore(int pos, T value){ // Insertar un valor al lado derecho de una posición
+        void insertBefore(int pos, T value){ // Insertar un valor al lado derecho de una posición (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -130,7 +130,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             head = current; // La cabeza (es decir, la lista) se vuelve el nuevo nodo que eventualmente sera referenciado por otro elemento ligado a la cabeza o ella misma
         }
 
-        Node <T>* searchPos(int pos){ // Buscar un nodo por posición
+        Node <T>* searchPos(int pos){ // Buscar un nodo por posición (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -145,7 +145,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             return current; // Regresa el nodo encontrado
         }
 
-        Node <T>* searchValue(T value){ // Buscar un nodo por valor
+        Node <T>* searchValue(T value){ // Buscar un nodo por valor (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -158,7 +158,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             return current; // Regresa el nodo encontrado
         }
 
-        void update(int pos, T value){ // Modificar un valor dada una posición
+        void update(int pos, T value){ // Modificar un valor dada una posición (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -179,7 +179,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             head = current; // La cabeza (es decir, la lista) se vuelve el nuevo nodo que eventualmente sera referenciado por otro elemento ligado a la cabeza o ella misma
         }
 
-        void delByPos(int pos){ // Borrar un elemento dada una posición
+        void delByPos(int pos){ // Borrar un elemento dada una posición (O(n))
             Node <T> *current = new Node <T>; // Nodo para recorrer la lista
             current = this->head;
 
@@ -208,7 +208,7 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
             head = n_node;  // La cabeza (es decir, la lista) se vuelve el nuevo nodo que eventualmente sera referenciado por otro elemento ligado a la cabeza o ella misma
         }
 
-        void print(){ // Imprime todos los elementos
+        void print(){ // Imprime todos los elementos (O(n))
             Node <T> *current = this->head; // Nuevo nodo es igual a la cabeza
 
             while (current){ // Itera por la lista hasta que llegue al elemento nulo
