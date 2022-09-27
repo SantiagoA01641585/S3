@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -220,35 +222,67 @@ template <class T> class DoubleLinkedList { // Clase para la lista doblemente li
 };
 
 int main(){
+
+    ifstream infile;
+
+    infile.open("lect.txt"); // Leer archivo de texto
+
+    string line;
+
+    getline(infile, line); // Obtener la línea
+
+    infile.close();
+
+    string num; // String con el número
+    DoubleLinkedList <int> lista(1); // Inicializar la lista ligada
+    for (auto c:line){
+        if (c == '-'){
+            int n = stoi(num); // Convertir cadena de texto a número
+            lista.insertBefore(0, n); // Insertar el número antes de 0
+
+            num.clear(); // Limpiar la cadena
+            continue;
+        }
+
+        num += c; // Añadir el caracter
+    }
+
+    cout << "------------------------\n";
+    lista.print(); // Imprimir lista
+    cout << "------------------------\n";
     
-    DoubleLinkedList <int> lista(14);
+    // Añadir más nodos
     lista.insertAfter(0, 10);
     lista.insertAfter(0, 5);
     lista.insertBefore(1, 7);
     lista.insertBefore(0, 9);
     lista.insertBefore(0, 11);
 
-    Node <int> *eval = lista.searchPos(3);
+    cout << "------------------------\n";
+    lista.print(); // Imprimir lista
+    cout << "------------------------\n";
 
-    cout << eval->getData() << endl;
+    Node <int> *eval = lista.searchPos(3); // Encontrar un nodo p0r posición
 
-    eval = lista.searchValue(7);
+    cout << eval->getData() << endl; // Mostrarlo en pantalla
 
-    cout << eval->getData();
+    eval = lista.searchValue(7); // Encontrar un nodo por valor
 
-    cout << "\n-----------" << endl;
-    lista.print();
-    cout << "\n-----------" << endl;
-
-    lista.update(3, 4);
+    cout << eval->getData(); // Mostrarlo en pantalla
 
     cout << "\n-----------" << endl;
-    lista.print();
+    lista.print(); // Imprimir lista
     cout << "\n-----------" << endl;
 
-    lista.delByPos(3);
+    lista.update(3, 4); // Actualizar el dato de la posición 3 a 4
 
     cout << "\n-----------" << endl;
-    lista.print();
+    lista.print(); // Imprimir lista
+    cout << "\n-----------" << endl;
+
+    lista.delByPos(3); // Borrar el nodo de la posición 2
+
+    cout << "\n-----------" << endl;
+    lista.print(); // Imprimir la lista
     cout << "\n-----------" << endl;
 }
