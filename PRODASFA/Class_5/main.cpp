@@ -20,6 +20,8 @@ class BST{
 
         void print(Node *);
 
+        void DeleteBST(Node *&);
+
     public:
         BST():root(NULL){}
         ~BST(){
@@ -35,7 +37,7 @@ class BST{
 
         void print(){print(root);}
 
-        void DeleteBST(Node *&);
+        void DeleteBST(){DeleteBST(root);}
 };
 
 void BST::insert(int &value, Node *&root){
@@ -53,6 +55,33 @@ void BST::insert(int &value, Node *&root){
             cout << "Repeated element.\n";
         }
     }
+}
+
+void BST::InOrder(Node *root){
+    if(root == NULL)
+        return;
+
+    InOrder(root->left);
+    cout << root->data << " ";
+    InOrder(root->right);
+}
+
+void BST::PreOrder(Node *root){
+    if(root == NULL)
+        return;
+
+    cout << root->data << " ";
+    PreOrder(root->left);
+    PreOrder(root->right);
+}
+
+void BST::PostOrder(Node *root){
+    if(root == NULL)
+        return;
+
+    PostOrder(root->left);
+    PostOrder(root->right);
+    cout << root->data << " ";
 }
 
 void BST::print(Node *root){
@@ -77,16 +106,40 @@ void BST::print(Node *root){
     }
 }
 
-void BST::DeleteBST(Node *& root){
-    if(root){
-        DeleteBST(root->left);
-        DeleteBST(root->right);
-
-        delete root;
+void BST::DeleteBST(Node *& target){
+    if (!target->left && !target->right){
+        delete target;
         return;
     }
 
-    return;
+    if(target->right){
+        target->data = target->right->data;
+        delete target->right;
+
+        return;
+    }
+
+    if(target->left){
+        target->data = target->left->data;
+        delete target->left;
+
+        return;
+    }
+
+    if(target->left && target->right){
+        Node *leftmost = new Node;
+        leftmost = target->right;
+
+        while (leftmost->left)
+        {
+            leftmost = leftmost->left;
+        }
+
+        target->data = leftmost->data;
+        delete leftmost;   
+
+        return;     
+    }
 }
 
 int main(){
@@ -106,8 +159,14 @@ int main(){
     tree.insert(val);
     val = 11;
     tree.insert(val);
+    val = 8;
+    tree.insert(val);
 
-    tree.print();
+    tree.PreOrder();
 
+    tree.DeleteBST();
 
+    tree.PreOrder();
+
+    return 0;
 }
