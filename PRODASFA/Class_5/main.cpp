@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -18,9 +19,10 @@ class BST{
         void PreOrder(Node *);
         void PostOrder(Node *);
 
-        void print(Node *);
+        void SubstituteToMin(Node *&, Node *&);
+        void DeleteNode(int &, Node *&);
 
-        void DeleteBST(Node *&);
+        void print(Node *);
 
     public:
         BST():root(NULL){}
@@ -35,9 +37,13 @@ class BST{
         void PreOrder(){PreOrder(root);}
         void PostOrder(){PostOrder(root);}
 
+        void DeleteNode(int &value){DeleteNode(value, root);}
+        
+        void BFT();
+
         void print(){print(root);}
 
-        void DeleteBST(){DeleteBST(root);}
+        void DeleteBST(Node *&);
 };
 
 void BST::insert(int &value, Node *&root){
@@ -106,39 +112,72 @@ void BST::print(Node *root){
     }
 }
 
-void BST::DeleteBST(Node *& target){
-    if (!target->left && !target->right){
-        delete target;
-        return;
+void BST::SubstituteToMin(Node *&root, Node *&apAux){
+    if(root->left != NULL)
+        SubstituteToMin(root->left, apAux);
+    else{
+        // Transfer data from the substitute node
+        apAux->data = root->data;
+        // Save the minValue node (to delete)
+        apAux = root;
+        // Swap place minValue-right (Node or NULL)
+        root = root->right;
     }
+}
 
-    if(target->right){
-        target->data = target->right->data;
-        delete target->right;
+void BST::DeleteNode(int &value, Node*&root){
+    if(root == NULL)
+        cout << "BST is empty" << endl << endl;
+    else{
+        if (value < root->data)
+            DeleteNode(value, root->left);
+        else if (value > root->data)
+            DeleteNode(value, root->right);
+        else{
+            Node *apAux = root;
 
-        return;
-    }
+            if(apAux->right == NULL) // Only left child node
+                root = apAux->left;
+            if(apAux->left == NULL) // Only right child node
+                root = apAux->right;
+            if(apAux->left != NULL && apAux->right != NULL) // Two child nodes
+                SubstituteToMin(root->right, apAux);
 
-    if(target->left){
-        target->data = target->left->data;
-        delete target->left;
-
-        return;
-    }
-
-    if(target->left && target->right){
-        Node *leftmost = new Node;
-        leftmost = target->right;
-
-        while (leftmost->left)
-        {
-            leftmost = leftmost->left;
+            cout << "\nThe key to delete: " << value << endl;
+            cout << "The element was deleted with the key: " << apAux->data << endl;
+            delete apAux;
         }
+    }
+}
 
-        target->data = leftmost->data;
-        delete leftmost;   
+void BST::BFT(){
+    if(this->root == NULL){
+        cout << "The BST is empty" << endl;
+        return;
+    }
 
-        return;     
+    queue<Node*> Q;
+    Q.push(this->root);
+
+    Node *Aux;
+    while (!Q.empty()){
+        Q.push(NULL);
+
+        Aux = Q.front();
+        while(Aux != NULL){
+            cout << Aux->data << " ";
+
+            if(Aux->left != NULL)
+                Q.push(Aux->left);
+            if(Aux->right != NULL)
+                Q.push(Aux->right);
+
+            Q.pop();
+            Aux = Q.front();
+        }
+        Q.pop();
+
+        cout << endl;
     }
 }
 
@@ -164,9 +203,13 @@ int main(){
 
     tree.PreOrder();
 
-    tree.DeleteBST();
+    cout << endl << endl;
 
-    tree.PreOrder();
+    tree.BFT();
+
+    cout << endl << endl;
+
+    tree.BFT();
 
     return 0;
 }
