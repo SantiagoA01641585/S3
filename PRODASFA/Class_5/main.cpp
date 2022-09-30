@@ -22,12 +22,10 @@ class BST{
         void SubstituteToMin(Node *&, Node *&);
         void DeleteNode(int &, Node *&);
 
-        void print(Node *);
-
     public:
         BST():root(NULL){}
         ~BST(){
-            DeleteBST(root);
+            //DeleteBST(root);
             cout << "\nDestructor: BST deleted";
         }
 
@@ -37,11 +35,9 @@ class BST{
         void PreOrder(){PreOrder(root);}
         void PostOrder(){PostOrder(root);}
 
-        void DeleteNode(int &value){DeleteNode(value, root);}
+        void DeleteNode(int value){DeleteNode(value, root);}
         
         void BFT();
-
-        void print(){print(root);}
 
         void DeleteBST(Node *&);
 };
@@ -88,28 +84,6 @@ void BST::PostOrder(Node *root){
     PostOrder(root->left);
     PostOrder(root->right);
     cout << root->data << " ";
-}
-
-void BST::print(Node *root){
-    if(root==NULL){
-        return;
-    }
-    else{
-        cout << root->data << endl;
-
-        if(root->left) cout << root->left->data << " ";
-        if(root->right) cout << root->right->data;
-
-        cout << endl;
-
-        if(root->left->left) print(root->left->left);
-        cout << " ";
-        if(root->left->right) print(root->left->right);
-        cout << " ";
-        if(root->right->left) print(root->right->left);
-        cout << " ";
-        if(root->right->right) print(root->right->right);
-    }
 }
 
 void BST::SubstituteToMin(Node *&root, Node *&apAux){
@@ -167,9 +141,9 @@ void BST::BFT(){
         while(Aux != NULL){
             cout << Aux->data << " ";
 
-            if(Aux->left != NULL)
+            if(Aux->left)
                 Q.push(Aux->left);
-            if(Aux->right != NULL)
+            if(Aux->right)
                 Q.push(Aux->right);
 
             Q.pop();
@@ -179,6 +153,13 @@ void BST::BFT(){
 
         cout << endl;
     }
+}
+
+void BST::DeleteBST(Node *& root){
+    if(root->left) DeleteBST(root->left);
+    if(root->right) DeleteBST(root->right);
+
+    if(!root->left && !root->right) delete root;
 }
 
 int main(){
@@ -208,6 +189,8 @@ int main(){
     tree.BFT();
 
     cout << endl << endl;
+
+    tree.DeleteNode(5);
 
     tree.BFT();
 
