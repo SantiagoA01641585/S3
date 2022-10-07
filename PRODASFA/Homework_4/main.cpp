@@ -16,7 +16,6 @@ template <class T> class Node {
 
         // Constructores
         Node(){ // Constructor default
-            this->data = 0;
             this->next = NULL;
             this->prev = NULL;
         }
@@ -279,7 +278,7 @@ int main(){
     lista.print(); // Imprimir lista
     cout << "\n-----------" << endl;
 
-    lista.delByPos(0); // Borrar el nodo de la posición 2
+    lista.delByPos(3); // Borrar el nodo de la posición 2
 
     cout << "\n-----------" << endl;
     lista.print(); // Imprimir la lista
