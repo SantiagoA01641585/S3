@@ -5,9 +5,15 @@
 #include <sstream> // std::istringstream
 #include <string>
 
+// Act 2.3 - Actividad Integral estructura de datos lineales
+// Integrantes:
+// - Santiago Vera Espinoza | A01641585
+// - Iker Ochoa Villaseñor  | A01640984
+
 using namespace std;
 
-void printVector(vector<int> array)
+// Complexity O(n)
+void printVector(vector<int> array) // Prints the full vector
 {
     for (int i = 0; i < array.size(); i++)
     {
@@ -15,33 +21,35 @@ void printVector(vector<int> array)
     }
 }
 
-vector<int> separateIP(string ip)
+// Complexity O(1)
+vector<int> separateIP(string ip) // Separates an IP, from a string into a vector
 {
     istringstream iss(ip);
     std::vector<int> tokens;
     std::string token;
-    while (std::getline(iss, token, '.'))
+    while (std::getline(iss, token, '.')) // Fetches for the "."
     {
         if (!token.empty())
-            tokens.push_back(stoi(token));
+            tokens.push_back(stoi(token)); // Pushes the token back
     }
 
-    return tokens;
+    return tokens; // Returns the vector
 }
 
-vector<int> getIP(string line)
+// Complexity O(1)
+vector<int> getIP(string line) // Separates the IP from the strings given by the document
 {
     int count = 0;
     string ip = "";
 
-    for (int i = 0; i < line.length(); i++)
+    for (int i = 0; i < line.length(); i++) // Iterates the string
     {
-        if (line[i] == ' ')
+        if (line[i] == ' ') // Counts if there is a space
         {
             count++;
         }
 
-        if (count == 3)
+        if (count == 3) // When it reaches 3, it saves that string
         {
             ip += line[i];
         }
@@ -49,7 +57,7 @@ vector<int> getIP(string line)
 
     // fillIP("1.22.33.1:000");
     //printVector(separateIP(ip));
-    return separateIP(ip);
+    return separateIP(ip); // Returns the vector
 }
 
 // Merge Function - Complexity O(n)
@@ -156,13 +164,14 @@ vector<string> mergeSort(vector<string> array)
     return merge(left, right);
 }
 
+// Checks is an IP is greater than the other - Complexity O(1)
 bool isGreaterThan(string input, string target){ // Datos: input es solo el ip, target es la linea completa. Es el input mas grande que el target?
     vector <int> vec_input = getIP(input);
     vector <int> vec_target = separateIP(target);
 
-    if (vec_input[0] > vec_target[0]) return true;
+    if (vec_input[0] > vec_target[0]) return true; // Checks is the first element is greater
 
-    if (vec_input[0] == vec_target[0]){
+    if (vec_input[0] == vec_target[0]){ // Checks the other priority cases
         if (vec_input[1] > vec_target[1]) return true;
 
         if (vec_input[1] == vec_target[1]){
@@ -174,62 +183,63 @@ bool isGreaterThan(string input, string target){ // Datos: input es solo el ip, 
         }
     }
 
-    return false;
+    return false; // Else, it returns false
 }
 
+// Binary Search Function - Complexity O(log(n))
 int binarySearch(string fetch, vector <string> arr){
 
-    bool time_to_exit = false;
+    bool time_to_exit = false; // Flag to exit the cycle
 
-    int num_elev = 1;
+    int num_elev = 1; // Number elevation to afect the index
 
-    int ptr = 0;
+    int ptr = 0; // Index of the vector
 
-    while(!isGreaterThan(arr[ptr], fetch) && !time_to_exit){
+    while(!isGreaterThan(arr[ptr], fetch) && !time_to_exit){ // Checks if the evaluated ip is greater than the fetched ip
         ptr = num_elev;
 
-        num_elev *= 2;
+        num_elev *= 2; // Moltiplies by two the sum of the index
 
-        if (ptr > arr.size()){
-            ptr = arr.size()-1;
-            num_elev /= 2;
+        if (ptr > arr.size()){ // If the index is greater than the size of the array it clamps it
+            ptr = arr.size()-1; // Clamping of the index
+            num_elev /= 2; // reduction of the search adder
 
-            time_to_exit = true;
-            continue;
+            time_to_exit = true; // Updates the flag to exit
+            continue; // Returns to the evaluation
         }
     }
 
-    while (num_elev != 1){
-        num_elev /= 2;
+    while (num_elev != 1){ // Once it finds a greater ip, it starts to reduce it's value to 2^0
+        num_elev /= 2; // Reduces de adder
 
-        while (isGreaterThan(arr[ptr - num_elev], fetch)){
-            ptr -= num_elev;
+        while (isGreaterThan(arr[ptr - num_elev], fetch)){ // Checks if the next index under the array is greater than the fetched ip
+            ptr -= num_elev; // If so, it reduces the adder
         }
     }
 
-    if (!isGreaterThan(arr[ptr], fetch)) return ptr + 1;
+    if (!isGreaterThan(arr[ptr], fetch)) return ptr + 1; // If the ip under the index is lesser than the fetched ip, it sums 1
 
-    return ptr;
+    return ptr; // Returns the found index
 }
 
 //------------------------------------------------------------------------------
 
 int main()
 {
-    ifstream infile;
-    ofstream outfile;
+    ifstream infile; // In file
+    ofstream outfile; // Out file
 
-    ifstream sortedin;
+    ifstream sortedin; // Sorted file (optional)
 
-    std::vector<std::string> lines;
-    string line;
+    std::vector<std::string> lines; // Vector for the lines of the document
+    string line; // Auxiliar string
 
-    vector<string> lineSorted;
+    vector<string> lineSorted; // Vector for the lines of the sorted document
 
     // Open the input file
     infile.open("bitacora.txt");
 
-    sortedin.open("sorted.txt");
+    sortedin.open("sorted.txt"); // Tries to open the sorted text file
 
     if (sortedin.is_open()){
         // // If the file is open
@@ -240,7 +250,7 @@ int main()
     }
 
     if (!sortedin.is_open()){
-        // // If the file is open
+        // // If the file could not be open
         while (getline(infile, line))
         {
             lines.push_back(line);
@@ -260,32 +270,32 @@ int main()
         }
     }
 
-    string lim_izq, lim_der;
+    string lim_izq, lim_der; // Limits of the fetch
 
     cout << "Ingresa el IP minimo:\n";
 
     cout << endl << ">> ";
-    cin >> lim_izq;
+    cin >> lim_izq; // Min value
 
     cout << "Ingresa el IP maximo:\n";
 
     cout << endl << ">> ";
-    cin >> lim_der;
+    cin >> lim_der; // Max value
 
-    int id_izq = binarySearch(lim_izq, lineSorted);
+    int id_izq = binarySearch(lim_izq, lineSorted); // Finds the index
 
-    int id_der = binarySearch(lim_der, lineSorted) - 1;
+    int id_der = binarySearch(lim_der, lineSorted) - 1; // Finds the index
 
-    if (id_izq == lineSorted.size()) id_izq--;
+    if (id_izq == lineSorted.size()) id_izq--; // Prevention of limit cases
 
-    if (id_izq <= id_der){
+    if (id_izq <= id_der){ // Display of the fetch
         cout << "Resultado busqueda:" << endl;
         cout << "------------------------" << endl;
         for (int i=id_izq; i<=id_der; i++) {
             cout << lineSorted[i] << endl;
         }
     }
-    else{
+    else{ // Error management
         cout << "\nDatos ingresados erroneos" << endl;
     }
     
