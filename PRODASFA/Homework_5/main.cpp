@@ -291,17 +291,33 @@ int main(){
     tree.insertNode(14); // Insert 14
 
     tree.visit(1); // Visit the tree with preconfiguration 1 (Preorder)
+    cout << endl;
     tree.visit(2); // Visit the tree with preconfiguration 2 (Inorder)
+    cout << endl;
     tree.visit(3); // Visit the tree with preconfiguration 3 (Postorder)
+    cout << endl;
     tree.visit(4); // Visit the tree with preconfiguration 4 (LevelByLevel)
+    cout << endl;
 
     cout << "\nTree height: " << tree.height() << endl; // Gets the tree height
 
-    int srch_node = 1;
+    int srch_node = 5;
     cout << "\nTree ancestors at " << srch_node << ": \n"; // Gets the tree ancestors
     tree.ancestors(srch_node);
 
-    int n = 14;
+    int n = 5;
     cout << "\nWhat level is " << n << " at?\n"; // Searches at what level n is
     cout << "At level " << tree.whatLevelAmI(n) << endl;
+
+    // Height cases
+    cout << "\n---------------------------------------------------------\n\n";
+
+    tree.insertNode(15);
+    cout << "\n2nd Tree height: " << tree.height() << endl; // Gets the tree height
+
+    tree.insertNode(17);
+    cout << "\n3rd Tree height: " << tree.height() << endl; // Gets the tree height
+
+    tree.insertNode(21);
+    cout << "\n4th Tree height: " << tree.height() << endl; // Gets the tree height
 }
