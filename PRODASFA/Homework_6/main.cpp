@@ -142,9 +142,17 @@ class MinHeapQueue{ // Main class for the queue
         }
 
         void pop(){ // Pops the first element and orders the queue
-            node_amount--; // Decreases the size
-
+        
             if (!head) return; // Flag to check if the queue has elements
+
+            if (!head->getLeft() && !head->getRight()){ // Case for the last node
+                head = NULL;
+                last_input = NULL;
+
+                return;
+            }
+
+            node_amount--; // Decreases the size
 
             queue <Node*> node_list; // Normal queue for the DFS
 
@@ -251,7 +259,7 @@ class MinHeapQueue{ // Main class for the queue
         int top(){ // Function to see the highest priority node - Complexity O(1)
             if (head) return head->getValue(); // Checks if the queue exists
 
-            return 0;
+            return -1;
         }
 
         bool empty(){ // Function to see if the queue is empty - Complexity O(1)
@@ -267,6 +275,9 @@ class MinHeapQueue{ // Main class for the queue
         }
 
         void print(){ // Prints the whole queue
+
+            if (!head) return; // Checks if the queue exists
+
             queue <Node*> node_list; // Normal queue for the DFS
 
             node_list.push(head); // Push the initial element
@@ -311,7 +322,7 @@ int main(){
     lista.push(7);
     lista.push(1);
 
-    lista.print(); 
+    lista.print();
 
     cout << "\n----------------------------\n";
     cout << "Pop Heap Queue:\n";
@@ -320,7 +331,7 @@ int main(){
     lista.pop();
     lista.pop();
 
-    lista.print(); 
+    lista.print();
 
     cout << "\n----------------------------\n";
     cout << "Top of Heap Queue: " << lista.top() << endl; // Diplay the top of the queue
