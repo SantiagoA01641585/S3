@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class Node{
+class Node{ // A class for the node
     private:
         // Atributes
         int val;
@@ -61,7 +61,7 @@ class Node{
         }
 };
 
-class MinHeapQueue{
+class MinHeapQueue{ // Main class for the queue
     private:
         // Atributes
         Node* head;
@@ -83,57 +83,57 @@ class MinHeapQueue{
         }
 
         // Methods
-        void push(int n_val){
-            node_amount++;
+        void push(int n_val){ // Pushes an element into the queue - Complexity O(n)
+            node_amount++; // Increases the amount of elements
 
-            if (!head){
+            if (!head){ // Checks if the queue is empty
                 head = new Node(n_val);
                 last_input = head;
                 return;
             } 
 
-            bool exit = false;
+            bool exit = false; // Exit flag
 
-            Node* n_node = new Node(n_val);
-            queue <Node*> node_list;
+            Node* n_node = new Node(n_val); // New node to insert
+            queue <Node*> node_list; // Normal queue for de DFS
 
-            node_list.push(head);
+            node_list.push(head); // Push the initial element
 
-            while(node_list.size() > 0 && !exit){
+            while(node_list.size() > 0 && !exit){ // DFS with exit flag
 
-                node_list.push(NULL);
+                node_list.push(NULL); // Separates with a NULL
                 while(node_list.front() != NULL && !exit){
 
-                    if(node_list.front()->getLeft()) node_list.push(node_list.front()->getLeft());
+                    if(node_list.front()->getLeft()) node_list.push(node_list.front()->getLeft()); // Pushes all the edges of the node
                     if(node_list.front()->getRight()) node_list.push(node_list.front()->getRight());
 
-                    if(!node_list.front()->getLeft()){
+                    if(!node_list.front()->getLeft()){ // Checks if the new node has to be put at the left
                         node_list.front()->setLeft(n_node);
                         n_node->setParent(node_list.front());
 
                         last_input = n_node;
-                        exit = true;
+                        exit = true; // Exits the loop
                         continue;
                     } 
 
-                    if(!node_list.front()->getRight()){
+                    if(!node_list.front()->getRight()){// Checks if the new node has to be put at the right
                         node_list.front()->setRight(n_node);
                         n_node->setParent(node_list.front());
 
                         last_input = n_node;
-                        exit = true;
+                        exit = true; // Exits the loop
                         continue;
                     } 
 
-                    node_list.pop();
+                    node_list.pop(); // Pops the queue
                 }
 
-                node_list.pop();
+                node_list.pop(); // Pops the queue
             }
 
-            Node* current = n_node;
+            Node* current = n_node; // Creates an iterator
 
-            while(current->getParent() && current->getValue() < current->getParent()->getValue()){
+            while(current->getParent() && current->getValue() < current->getParent()->getValue()){ // Returns to the top and swaps the nodes until the node is where it belongs
                 current->setValue(current->getParent()->getValue());
                 current->getParent()->setValue(n_val);
 
@@ -141,21 +141,21 @@ class MinHeapQueue{
             }
         }
 
-        void pop(){
-            node_amount--;
+        void pop(){ // Pops the first element and orders the queue
+            node_amount--; // Decreases the size
 
-            if (!head) return;
+            if (!head) return; // Flag to check if the queue has elements
 
-            queue <Node*> node_list;
+            queue <Node*> node_list; // Normal queue for the DFS
 
-            node_list.push(head);
+            node_list.push(head); // Pushes the initial element
 
-            while(node_list.size() > 0){
+            while(node_list.size() > 0){ // DFS
 
-                node_list.push(NULL);
+                node_list.push(NULL); // Separates with a NULL
                 while(node_list.front()){
 
-                    if(node_list.front()->getLeft()){
+                    if(node_list.front()->getLeft()){ // Pushes all the edges of the node and updates the las inserted element
                         node_list.push(node_list.front()->getLeft());
                         last_input = node_list.back();
                     } 
@@ -164,140 +164,140 @@ class MinHeapQueue{
                         last_input = node_list.back();
                     }
 
-                    node_list.pop();
+                    node_list.pop(); // Pops the queue
                 }
 
-                node_list.pop();
+                node_list.pop(); // Pops the queue
             }
 
-            head->setValue(last_input->getValue());
+            head->setValue(last_input->getValue()); // The value of the head is now the last input's value
 
-            Node* last_input_parent = last_input->getParent();
-            if(last_input_parent->getLeft() == last_input) last_input_parent->setLeft(NULL);
-            if(last_input_parent->getRight() == last_input) last_input_parent->setRight(NULL);
+            Node* last_input_parent = last_input->getParent(); // Creates a pointer to the parent node of the last element
+            if(last_input_parent->getLeft() == last_input) last_input_parent->setLeft(NULL); // If the last element is the left one, the pointer to it is set to NULL
+            if(last_input_parent->getRight() == last_input) last_input_parent->setRight(NULL); // If the last element is the right one, the pointer to it is set to NULL
 
-            delete last_input;
+            delete last_input; // Deletes the last input
 
-            last_input = last_input_parent;
+            last_input = last_input_parent; // The new las input is the parent
 
-            Node* current = head;
+            Node* current = head; // An iterator is created at the new head
 
-            bool exit = false;
+            bool exit = false; // Exit flag
 
-            while(!exit){
-                if (current->getLeft() && current->getRight()){
-                    if (current->getValue() > current->getLeft()->getValue() || current->getValue() > current->getRight()->getValue()){
-                        if (current->getLeft()->getValue() <= current->getRight()->getValue()){
-                            int val = current->getValue();
+            while(!exit){ // A while that depends on the exit flag
+                if (current->getLeft() && current->getRight()){ // If it has both child nodes
+                    if (current->getValue() > current->getLeft()->getValue() || current->getValue() > current->getRight()->getValue()){ // Checks if the current value is greater
+                        if (current->getLeft()->getValue() <= current->getRight()->getValue()){ // Checks which is the leasser of both child nodes
+                            int val = current->getValue(); // Swaps the nodes
 
                             current->setValue(current->getLeft()->getValue());
                             current->getLeft()->setValue(val);
 
-                            current = current->getLeft();
-                            continue;
+                            current = current->getLeft(); // Iterates to the left
+                            continue; // Returns to the start of the whole cycle
                         }
 
-                        if (current->getLeft()->getValue() > current->getRight()->getValue()){
-                            int val = current->getValue();
+                        if (current->getLeft()->getValue() > current->getRight()->getValue()){ // Dual case for the right
+                            int val = current->getValue(); // Swap
 
                             current->setValue(current->getRight()->getValue());
                             current->getRight()->setValue(val);
 
-                            current = current->getRight();
-                            continue;
+                            current = current->getRight(); // Iterates to the right
+                            continue; // Returns to the start of the whole cycle
                         }
 
                     }
 
-                    exit = true;
+                    exit = true; // If any of those is lesser, it exits the cycle
                     continue;
                 }
 
-                if (current->getLeft()){
-                    if (current->getValue() > current->getLeft()->getValue()){
+                if (current->getLeft()){ // If only the left node exists
+                    if (current->getValue() > current->getLeft()->getValue()){ // Is the left node lesser?
 
-                        int val = current->getValue();
+                        int val = current->getValue(); // Swaps bothe values
 
                         current->setValue(current->getLeft()->getValue());
                         current->getLeft()->setValue(val);
 
-                        current = current->getLeft();
-                        continue;
+                        current = current->getLeft(); // Iterates to the left
+                        continue; // Returns to the start of the whole cycle
                     }
 
-                    exit = true;
+                    exit = true; // If it does not have a child it exits the cycle
                     continue;
                 }
 
-                if (current->getRight()){
+                if (current->getRight()){ // If only the right node exists, dual case for right
                     if (current->getValue() > current->getRight()->getValue()){
-                        int val = current->getValue();
+                        int val = current->getValue(); // Swaps
 
                         current->setValue(current->getRight()->getValue());
                         current->getRight()->setValue(val);
 
-                        current = current->getRight();
-                        continue;
+                        current = current->getRight(); // Iterates to the right
+                        continue; // Returns to the start of the whole cycle
                     }
 
-                    exit = true;
+                    exit = true; // If conditions are not met, it exits the cycle
                     continue;
                 }
 
-                return;                
+                return; // Else it exits the functions, having or not met any condition          
             }
         }
 
-        int top(){
-            if (head) return head->getValue();
+        int top(){ // Function to see the highest priority node - Complexity O(1)
+            if (head) return head->getValue(); // Checks if the queue exists
 
             return 0;
         }
 
-        bool empty(){
-            if (!head) return true;
+        bool empty(){ // Function to see if the queue is empty - Complexity O(1)
+            if (!head) return true; // Checks if the queue exists
 
             return false;
         }
 
-        int size(){
-            if (head) return this->node_amount;
+        int size(){ // Function to see the size of the queue - Complexity O(1)
+            if (head) return this->node_amount; // Checks if the queue exists, if so, returns the size variable
 
             return 0;
         }
 
-        void print(){
-            queue <Node*> node_list;
+        void print(){ // Prints the whole queue
+            queue <Node*> node_list; // Normal queue for the DFS
 
-            node_list.push(head);
+            node_list.push(head); // Push the initial element
 
-            while(node_list.size() > 0){
+            while(node_list.size() > 0){ // DFS
 
-                node_list.push(NULL);
+                node_list.push(NULL); // Separates with a NULL
                 while(node_list.front()){
-                    if(!node_list.front()->getParent()) cout << node_list.front()->getValue() << "<-MAIN";
-                    else cout << node_list.front()->getValue() << "<-" << node_list.front()->getParent()->getValue() << " ";
+                    if(!node_list.front()->getParent()) cout << node_list.front()->getValue() << "<-MAIN"; // Prints diferent if it is the front of the queue
+                    else cout << node_list.front()->getValue() << "<-" << node_list.front()->getParent()->getValue() << " "; // Prints the other elements
 
-                    if(node_list.front()->getLeft()) node_list.push(node_list.front()->getLeft());
+                    if(node_list.front()->getLeft()) node_list.push(node_list.front()->getLeft()); // Pushes all the edges of the node
                     if(node_list.front()->getRight()) node_list.push(node_list.front()->getRight());
 
-                    node_list.pop();
+                    node_list.pop(); // Pops the queue
                 }
 
-                cout << endl;
+                cout << endl; // Separates with an end of line
 
-                node_list.pop();
+                node_list.pop(); // Pops the queue
             }
         }
 };
 
 int main(){
 
-    MinHeapQueue lista(2);
+    MinHeapQueue lista(2); // Create the Queue
 
     cout << "Push Heap Queue:\n";
 
-    lista.push(8);
+    lista.push(8); // Push 4 elements
     lista.push(4);
     lista.push(9);
     lista.push(5);
@@ -307,7 +307,7 @@ int main(){
     cout << "\n----------------------------\n";
     cout << "Push Heap Queue:\n";
     
-    lista.push(9);
+    lista.push(9); // Push 3 elements
     lista.push(7);
     lista.push(1);
 
@@ -316,21 +316,18 @@ int main(){
     cout << "\n----------------------------\n";
     cout << "Pop Heap Queue:\n";
 
-    lista.pop();
+    lista.pop(); // Pop the first element 3 times
     lista.pop();
     lista.pop();
 
     lista.print(); 
 
     cout << "\n----------------------------\n";
-    cout << "Top of Heap Queue: " << lista.top() << endl; 
+    cout << "Top of Heap Queue: " << lista.top() << endl; // Diplay the top of the queue
 
     cout << "\n----------------------------\n";
-    cout << "Is Heap Queue empty: " << lista.empty() << endl; 
+    cout << "Is Heap Queue empty: " << lista.empty() << endl; // Diplay if the queue is empty
 
     cout << "\n----------------------------\n";
-    cout << "Size of Heap Queue: " << lista.size() << endl;
-
-
-
+    cout << "Size of Heap Queue: " << lista.size() << endl; // Diplay the size of the queue
 }
