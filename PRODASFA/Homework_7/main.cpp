@@ -377,7 +377,12 @@ template <typename T> class AVL{ // AVL class
 
         void del(int fetch){ // Function to delete an specific node - Complexity O(2log(n))
 
-            if (!head) return; // Exit case if no nodes
+            if (!this->head) return; // Exit case if no nodes
+
+            if (this->head->getSize() == 1){ // In case the head is the only node
+                this->head = NULL;
+                return;
+            }
 
             Node <T>* current = head; // Iterable at head
             bool has_been_found = false; // Falg if node is found
@@ -467,6 +472,11 @@ template <typename T> class AVL{ // AVL class
                     }
                 }
 
+                int new_s = 0; // Upates the new size of the lower node with both child or one
+                if (current->getLeft()) new_s += current->getLeft()->getSize() + 1;
+                if (current->getRight()) new_s += current->getRight()->getSize() + 1;
+                current->setSize(new_s);
+
                 current->updateBalanceFactor(); // Updates the balance factor of current
                 
                 saved = current; // Returns to be the saved node
@@ -515,6 +525,9 @@ template <typename T> class AVL{ // AVL class
         }
 
         void printLvL(){ // Print by Level - Complexity O(n)
+
+            if (!this->head) return; // Exit function
+
             queue <Node<T>*> queue; // Queue for DFS
             queue.push(head); // Pushes head
 
@@ -565,12 +578,16 @@ int main(){ // Main function
     avl.del(0);
     avl.del(2);
     avl.del(-2);
+    avl.del(5);
+    avl.del(4);
+    avl.del(7);
+    avl.del(3);
 
     avl.printLvL(); // Prints all nodes
 
     cout << "---------------------\n";
 
-    avl.delTotal(); // Deletes all nodes
+    //avl.delTotal(); // Deletes all nodes
 
     cout << "------------\n";
 
