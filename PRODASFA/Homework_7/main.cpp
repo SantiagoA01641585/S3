@@ -550,6 +550,8 @@ int main(){ // Main function
 
     AVL <int> avl; // Creates a new avl
 
+    cout << "\nAVL Inicial:\n\n";
+
     avl.insert(4); // Node insertions
     avl.insert(3);
     avl.insert(2);
@@ -557,39 +559,136 @@ int main(){ // Main function
     avl.insert(0);
     avl.insert(5);
     avl.insert(7);
-    avl.insert(-2);
+    avl.insert(8);
 
     avl.printLvL(); // Prin by level
+    
+    cout << "---------------------\n";
+    cout << "Insert ()\n\n"; // Insertion
+
+    cout << "9:\n";
+    avl.insert(9);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "15:\n";
+    avl.insert(15);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "12:\n";
+    avl.insert(12);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "1:\n";
+    avl.insert(1);
+
+    avl.printLvL();
+    cout << endl;
 
     cout << "---------------------\n";
+    cout << "Del ()\n\n"; // Deletion
+    
+    cout << "8: \n";
+    avl.del(8);
 
-    int f = 4; // Find f
-    cout << "Finding " << 6 << "...\n The result is "; // Display result
+    avl.printLvL();
+    cout << endl;
+
+    cout << "2: \n";
+    avl.del(2);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "16: \n";
+    avl.del(16);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "9: \n";
+    avl.del(9);
+
+    avl.printLvL();
+    cout << endl;
+
+    cout << "---------------------\n";
+    cout << "Find:\n\n"; // Fetching
+
+    int f = 3; // Find f
+    cout << "Finding " << f << "...\n The result is "; // Display result
     string resp = (avl.find(f))? "true\n" : "false\n";
     cout << resp;
+    cout << endl;
+
+    f = 4; // Find f
+    cout << "Finding " << f << "...\n The result is "; // Display result
+    resp = (avl.find(f))? "true\n" : "false\n";
+    cout << resp;
+    cout << endl;
+
+    f = 15; // Find f
+    cout << "Finding " << f << "...\n The result is "; // Display result
+    resp = (avl.find(f))? "true\n" : "false\n";
+    cout << resp;
+    cout << endl;
+
+    f = 19; // Find f
+    cout << "Finding " << f << "...\n The result is "; // Display result
+    resp = (avl.find(f))? "true\n" : "false\n";
+    cout << resp;
+    cout << endl;
 
     cout << "---------------------\n";
+    cout << "Inorder:\n\n"; // Inorder
     
+    cout << "NONE:\n";
     avl.print(avl.getHead()); // Prints inorder
+    cout << endl << endl;
 
-    cout << "\n---------------------\n";
+    cout << "insert(11):\n";
+    avl.insert(11);
+    avl.print(avl.getHead()); // Prints inorder
+    cout << endl << endl;
+
+    cout << "insert(8):\n";
+    avl.insert(8);
+    avl.print(avl.getHead()); // Prints inorder
+    cout << endl << endl;
+
+    cout << "insert(16):\n";
+    avl.insert(16);
+    avl.print(avl.getHead()); // Prints inorder
+    cout << endl << endl;
     
-    avl.del(-1); // Deletes 2
-    avl.del(0);
-    avl.del(2);
-    avl.del(-2);
-    avl.del(5);
-    avl.del(4);
-    avl.del(7);
-    avl.del(3);
-
-    avl.printLvL(); // Prints all nodes
-
     cout << "---------------------\n";
+    cout << "Size:\n\n"; // Size
 
-    //avl.delTotal(); // Deletes all nodes
+    cout << "NONE:\n";
+    cout << avl.size() << "\n"; // Prints total size of the avl
+    cout << endl;
+
+    cout << "insert(19):\n";
+    avl.insert(19);
+    cout << avl.size() << "\n"; // Prints total size of the avl
+    cout << endl;
+
+    cout << "insert(17):\n";
+    avl.insert(17);
+    cout << avl.size() << "\n"; // Prints total size of the avl
+    cout << endl;
+
+    cout << "insert(10):\n";
+    avl.insert(10);
+    cout << avl.size() << "\n"; // Prints total size of the avl
+    cout << endl;
 
     cout << "------------\n";
 
-    cout << avl.size(); // Prints total size of the avl
+    avl.delTotal(); // Deletes all nodes
 }
