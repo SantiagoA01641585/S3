@@ -291,31 +291,31 @@ template <typename T> class BST{ // BST Class
 
 };
 
-string extractIP(string line){
-    string ip;
+string extractIP(string line){ // Extracts an IP from a line of text
+    string ip; // The IP
 
     int spc_cont = 0;
-    for(auto c:line){
-        if (c == ' ') spc_cont++;
-        if (spc_cont > 3) break;
+    for(auto c:line){ // Goes trough the line
+        if (c == ' ') spc_cont++; // Checks the spaces
+        if (spc_cont > 3) break; // Breaks when it reaches 4 spaces
 
-        if (spc_cont == 3){
+        if (spc_cont == 3){ // After space 3, everything is added to the ip
             ip += c;
         }
     }
 
-    return ip;
+    return ip; // Returns IP
 }
 
-long long int hashIP(string ip){
-    string aux;
-    long long int res;
+long long int hashIP(string ip){ // Hash function given a string
+    string aux; // Auxiliar string
+    long long int res; // Int to store the ip
 
-    int cont = 0;
-    for(int i=0; i<ip.size(); i++){
-        if (ip[i] == '.' || ip[i] == ':'){
+    int cont = 0; // Cont
+    for(int i=0; i<ip.size(); i++){ // Iterates trough the ip
+        if (ip[i] == '.' || ip[i] == ':'){ // Evades '.' and ':'
             cont++;
-            if (cont == 1 || cont == 3){
+            if (cont == 1 || cont == 3){ // Corrections for when the numbers are low
                 if (ip[i+2] == '.' || ip[i+2] == ':'){
                     aux += '0';
                     continue;
@@ -335,44 +335,23 @@ long long int hashIP(string ip){
             continue;
         }
 
-        aux += ip[i];
+        aux += ip[i]; // Gets the ip current char
     }
 
-    res = stoll(aux);
+    res = stoll(aux); // Converts to int
 
     return res;
 }
 
-vector <int> sepIP(string ip){
+void inFileMain(string in_Adress, BST <long long int> &tree){ // Main Function for the insertion of the elements
+    ifstream infile; // File
+    string line; // Line gotten
+    string prev_ip = " "; // The previous line gotten
 
-    string aux;
-    vector <int> resp;
-    for(auto c:ip){
-        if (c == '.' || c == ':'){
-            int num = stoi(aux);
-            resp.push_back(num);
-            aux.clear();
-            continue;
-        }
+    infile.open(in_Adress); // Open the file
 
-        aux += c;
-    }
-
-    int num = stoi(aux);
-    resp.push_back(num);
-
-    return resp;
-}
-
-void inFileMain(string in_Adress, BST <long long int> &tree){
-    ifstream infile;
-    string line;
-    string prev_ip = " ";
-
-    infile.open(in_Adress);
-
-    int contrl = 0;
-    int rep_cont = 1;
+    int contrl = 0; // Overall control cont
+    int rep_cont = 1; // Counts the repetitions
     while (getline(infile, line)){
         string ip = extractIP(line);
 
