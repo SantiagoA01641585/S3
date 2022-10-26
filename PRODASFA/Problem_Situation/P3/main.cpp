@@ -291,7 +291,7 @@ template <typename T> class BST{ // BST Class
 
 };
 
-string extractIP(string line){ // Extracts an IP from a line of text
+string extractIP(string line){ // Extracts an IP from a line of text - Complexity O(1)
     string ip; // The IP
 
     int spc_cont = 0;
@@ -307,7 +307,7 @@ string extractIP(string line){ // Extracts an IP from a line of text
     return ip; // Returns IP
 }
 
-long long int hashIP(string ip){ // Hash function given a string
+long long int hashIP(string ip){ // Hash function given a string - Complexity O(1)
     string aux; // Auxiliar string
     long long int res; // Int to store the ip
 
@@ -343,7 +343,7 @@ long long int hashIP(string ip){ // Hash function given a string
     return res;
 }
 
-void inFileMain(string in_Adress, BST <long long int> &tree){ // Main Function for the insertion of the elements
+void inFileMain(string in_Adress, BST <long long int> &tree){ // Main Function for the insertion of the elements - Complexity O(n)
     ifstream infile; // File
     string line; // Line gotten
     string prev_ip = " "; // The previous line gotten
@@ -352,93 +352,89 @@ void inFileMain(string in_Adress, BST <long long int> &tree){ // Main Function f
 
     int contrl = 0; // Overall control cont
     int rep_cont = 1; // Counts the repetitions
-    while (getline(infile, line)){
-        string ip = extractIP(line);
+    while (getline(infile, line)){ // Gets all the lines inside the file
+        string ip = extractIP(line); // Extracts the ip on a string
 
-        contrl++;
+        contrl++; // Updates the control variable
 
-        if(contrl > 18000) break;
-
-        if (prev_ip != " "){
-            if (ip == prev_ip){
-                rep_cont++;
-                prev_ip = ip;
+        if (prev_ip != " "){ // Skips if the previous id is empty
+            if (ip == prev_ip){ // Checks if both ip's are identical
+                rep_cont++; // Updates the repetition counter
+                prev_ip = ip; // Makes the prev ip the new ip
                 continue;
             }
 
-            long long int n_int = hashIP(prev_ip);
-            //cout << n_int << " - " << rep_cont << endl;
-            Node <long long int>* n_node = new Node <long long int>();
-            n_node->setData(n_int);
-            n_node->setKey(rep_cont);
+            long long int n_int = hashIP(prev_ip); // Hashes the IP
+            Node <long long int>* n_node = new Node <long long int>(); // New node
+            n_node->setData(n_int); // Sets the new data
+            n_node->setKey(rep_cont); // Sets the key
 
-            tree.insertNode(n_node);
+            tree.insertNode(n_node); // Inserts a new node in the BST
 
-            rep_cont = 1;
+            rep_cont = 1; // Restarts the repetition counter
         }
 
-        prev_ip = ip;
+        prev_ip = ip; // Sets the previous ip as the new ip
     }
 
-    infile.close();
+    infile.close(); // Closes the file
 }
 
-vector <pair <int, long long int>> findFiveLargest(BST <long long int> tree){
-    vector <pair <int, long long int>> res;
-    res.resize(5);
-    res[0] = make_pair(1,6);
+vector <pair <int, long long int>> findFiveLargest(BST <long long int> tree){ // Vector function to find the 5 more ussual ip consults - Complexity O(n)
+    vector <pair <int, long long int>> res; // Pair vector of the key and the ip
+    res.resize(5); // Initializes the vector with 5 elements set as 0
 
-    Node <long long int>* curr = new Node <long long int> ();
-    curr = tree.getRoot();
-    while (curr->getRight()){
-        if (curr->getKey() > res[0].first){
-            if (curr->getKey() > res[1].first){
-                if (curr->getKey() > res[2].first){
-                    if (curr->getKey() > res[3].first){
-                        if (curr->getKey() > res[4].first){
-                            res[4] = make_pair(curr->getKey(), curr->getData());
-                            curr = curr->getRight();
+    Node <long long int>* curr = new Node <long long int> (); // Creates a new node to iterate the BST
+    curr = tree.getRoot(); // It is set at the root of the tree
+    while (curr->getRight()){ // While the current node has a right node
+        if (curr->getKey() > res[0].first){ // First vector element priority
+            if (curr->getKey() > res[1].first){ // Second vector element priority
+                if (curr->getKey() > res[2].first){ // Third vector element priority
+                    if (curr->getKey() > res[3].first){ // Fourth vector element priority
+                        if (curr->getKey() > res[4].first){ // Fifth vector element priority
+                            res[4] = make_pair(curr->getKey(), curr->getData()); // The fifth element set with the current key
+                            curr = curr->getRight(); // Goes right
                             continue;
                         }
 
-                        res[3] = make_pair(curr->getKey(), curr->getData());
-                        curr = curr->getRight();
+                        res[3] = make_pair(curr->getKey(), curr->getData()); // The fourth element set with the current key
+                        curr = curr->getRight(); // Goes right
                         continue;
                     }
 
-                    res[2] = make_pair(curr->getKey(), curr->getData());
-                    curr = curr->getRight();
+                    res[2] = make_pair(curr->getKey(), curr->getData()); // The third element set with the current key
+                    curr = curr->getRight(); // Goes right
                     continue;
                 }
 
-                res[1] = make_pair(curr->getKey(), curr->getData());
-                curr = curr->getRight();
+                res[1] = make_pair(curr->getKey(), curr->getData()); // The second element set with the current key
+                curr = curr->getRight(); // Goes right
                 continue;
             }
 
-            res[0] = make_pair(curr->getKey(), curr->getData());
-            curr = curr->getRight();
+            res[0] = make_pair(curr->getKey(), curr->getData()); // The first element set with the current key
+            curr = curr->getRight(); // Goes right
             continue;
         }
 
-        curr = curr->getRight();
+        curr = curr->getRight(); // Goes right otherwise
     }
 
-    return res;
+    return res; // Returns the result vector
 }
 
 
-int main(){
+int main(){ // Main function
 
-    BST <long long int> hash_map;
+    BST <long long int> hash_map; // Creates a BST for the hash map
 
-    inFileMain("sorted.txt", hash_map);
+    inFileMain("sorted.txt", hash_map); // Does the inMainFunction with the name of the file and the BST
 
-    vector <pair <int, long long int>> res;
-    res = findFiveLargest(hash_map);
+    vector <pair <int, long long int>> res; // Creates the result vector
+    res = findFiveLargest(hash_map); // Fids 5 more recurrent ip's
 
-    for (auto e:res){
-        cout << e.second << " |+| " << e.first << endl;
+    for (auto e:res){ // Auto loop
+        cout << e.second << " |+| " << e.first << endl; // Displays the vector
     }
 
 }
