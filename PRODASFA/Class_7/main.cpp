@@ -24,6 +24,8 @@ class Graph{
         void printGraph();
         void resetVisited();
 
+        bool isBipartite(int);
+
         void DFS(int);
         void BFS(int);
 };
@@ -48,6 +50,37 @@ void Graph::resetVisited(){
     for (int i = 0; i < numVertices; i++){
         visited[i] = false;
     }
+}
+
+bool Graph::isBipartite(int vertex){
+    vector <bool> color(numVertices);
+
+
+    this->visited[vertex] = true;
+    color[vertex] = 0;
+    
+
+    list<int> queue;
+    queue.push_back(vertex);
+
+    while (!queue.empty()){
+        int curr_vertex = queue.front();
+        queue.pop_front();
+
+        for (auto i: adjLists[curr_vertex]){
+            if (!visited[i]){
+                visited[i] = true;
+                color[i] = !color[curr_vertex];
+
+                queue.push_back(i);
+            }
+            else if (color[curr_vertex] == color[i]){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 void Graph::DFS(int vertex){
@@ -102,6 +135,11 @@ int main(){
 
     cout << "\nBFS: ";
     G.BFS(0);
+    G.resetVisited();
+
+    cout << "\nIs Bipartite? ";
+    if (G.isBipartite(0)) cout << "Yes";
+    else cout << "No";
 
     return 0;
 }
