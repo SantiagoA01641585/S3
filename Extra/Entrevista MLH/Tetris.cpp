@@ -60,7 +60,7 @@ private:
 
     float Pos_X; // Has the x position of the current piece
     float Pos_Y = 28; // Has the y position of the current piece
-    bool CanSwitch = true; // Allows the current piece to switch with both the saved type or the next type and save the current
+    bool CanSwitch = true; // Limits the amount of times a piece can be switched
 
     int OffSet_X_SavedTetromino = 0; // X coordinate of the predetermined square that is outside of the saved tetromino
     int OffSet_Y_SavedTetromino = 0; // Y coordinate of the predetermined square that is outside of the saved tetromino
@@ -442,77 +442,77 @@ public:
     }
 
 
-    void MeshTetrominos() {
-        if (!DoesPieceFit3() or !DoesPieceFitDown()) {
-            cont_3++;
+    void MeshTetrominos() { // Checks when the current tetromino is added to the floor mesh and if that adition causes a game over
+        if (!DoesPieceFit3() or !DoesPieceFitDown()) { // If can not fit down either on the mesh or in the floor
+            cont_3++; // Increase the time in floor counter
 
-            if (cont_3 > (20 / (GetElapsedTime()*10) ) ) {
-                Tetromino_Mesh.push_back({});
-                CanSwitch = true;
-                for (int j = 0; j < Tetromino[Tetromino_Type].Arr.size(); j++) {
-                    MeshIndex = Tetromino_Mesh.size() - 1;
+            if (cont_3 > (20 / (GetElapsedTime()*10) ) ) { // If the counter is greater than a specific amount of time
+                Tetromino_Mesh.push_back({}); // Pushes the tetromino to the floor mesh
+                CanSwitch = true;  // Resets the swap flag
+                for (int j = 0; j < Tetromino[Tetromino_Type].Arr.size(); j++) { // Goes through all the blocks of the current tetromino (added to the floor mesh)
+                    MeshIndex = Tetromino_Mesh.size() - 1; // Gets the index of the last element of the new floor mesh
 
-                    float x = (Tetromino[Tetromino_Type].Arr[j].x + Pos_X);
-                    float y = (Tetromino[Tetromino_Type].Arr[j].y + Pos_Y);
-                    Tetromino_Mesh[MeshIndex].Arr.push_back({ x, y });
-                    Tetromino_Mesh[MeshIndex].Colour = Tetromino[Tetromino_Type].Colour;
+                    float x = (Tetromino[Tetromino_Type].Arr[j].x + Pos_X); // Gets the position at x of the block and offsets it to the current pos
+                    float y = (Tetromino[Tetromino_Type].Arr[j].y + Pos_Y); // Gets the position at y of the block and offsets it to the current pos
+                    Tetromino_Mesh[MeshIndex].Arr.push_back({ x, y }); // Pushes the coordinates of the block to the new tetromino of the floor mesh
+                    Tetromino_Mesh[MeshIndex].Colour = Tetromino[Tetromino_Type].Colour; // Pushes the corresponding colour to the new element of the floor mesh
                 }
 
-                Pos_X = ScreenWidth() / 2;
+                Pos_X = ScreenWidth() / 2; // Resets the tetromino pos
                 Pos_Y = 28;
-                Tetromino_Type = Next_Type;
+                Tetromino_Type = Next_Type; // The current type is set as the next type
 
-                Next_Type = rand() % 7;
+                Next_Type = rand() % 7; // The next type is randomized from 0 to 6
 
-                if (!CheckToEraseCompleteLine()) cout << "";
+                if (!CheckToEraseCompleteLine()) cout << ""; // Error check, but when called, it does all the desired effects on the elements (from detection of a completed line to its removal from the field)
 
-                cont_3 = 0;
+                cont_3 = 0; // Resets the time in floor counter
 
-                if (GameOver()) {
+                if (GameOver()) { // Checks if the game over condition is met
 
-                    cout << "Score= " << score << endl;
+                    cout << "Score= " << score << endl; // Score debug
 
-                    Tetromino_Mesh.clear();
-                    Tetromino.clear();
-                    Next_Tetromino.clear();
-                    HasBeenPressed = false;
-                    cont = 0;
-                    Speed = 60;
-                    score = 0;
-                    CanSwitch = true;
-                    LineasCompletadas = 0;
+                    Tetromino_Mesh.clear(); // Clears the floor mesh
+                    Tetromino.clear(); // Clears the tetrominos (unnecesary)
+                    Next_Tetromino.clear(); // Clears the next tetromino vector (unnecesary too)
+                    HasBeenPressed = false; // Resets the shift has been pressed flag
+                    cont = 0; // Resets the general counter
+                    Speed = 60; // Resets the speed
+                    score = 0; // resets the score
+                    CanSwitch = true; // Resets the swap enable flag
+                    LineasCompletadas = 0; // Resets the completed lines counter
                 }
             }
         }
 
     }
 
-    void SaveTetromino() {
-        if (HasBeenPressed and GetKey(olc::SHIFT).bPressed and SavedTypeDoesFit() and CanSwitch) { // Checks if shift has been pressed
-            int n = Saved_Type;
-            Saved_Type = Tetromino_Type;
+    void SaveTetromino() { // Saves a tetromino in the saved tetromino slot
+        if (HasBeenPressed and GetKey(olc::SHIFT).bPressed and SavedTypeDoesFit() and CanSwitch) { // Checks if shift has been pressed before, if it is currently beeing pressed, if the saved type fits and if it has not been switched before in the round
+            int n = Saved_Type; // Aux variable
+            Saved_Type = Tetromino_Type; // Swaps the saved and current types
             Tetromino_Type = n;
-            CanSwitch = false;
+            CanSwitch = false; // Disables the future swaps in the round
         }
 
-        if (!HasBeenPressed) {
-            if (GetKey(olc::SHIFT).bPressed and CanSwitch) {
+        if (!HasBeenPressed) { // If the shift key has not been pressed before (nothing in the saved slot)
+            if (GetKey(olc::SHIFT).bPressed and CanSwitch) { // Checks if the key currently is beeing pressed and if the pieces has not been switched before in the round
 
-                HasBeenPressed = true;
+                HasBeenPressed = true; // Sets the flag as true
 
-                Saved_Type = Tetromino_Type;
-                Tetromino_Type = Next_Type;
-                Next_Type = rand() % 7;
-                CanSwitch = false;
+                Saved_Type = Tetromino_Type; // Puts the current type inside the saved slot
+                Tetromino_Type = Next_Type; // Gets the next type from the next slot
+                Next_Type = rand() % 7; // Randomizes teh next type
+                CanSwitch = false; // Disables the swap fro this round
             }
         }
 
     }
 
-    void DrawTetromino() {
-        if (cont < 1) {
+    void DrawTetromino() { // Draws the tetrominos
+        if (cont < 1) { // For the first frame and when the general counter gets resetted
 
-            Tetromino.push_back({});
+            Tetromino.push_back({}); // Pushes a space for all the diferent tetrominos (assets)
             Tetromino.push_back({});
             Tetromino.push_back({});
             Tetromino.push_back({});
@@ -522,52 +522,52 @@ public:
 
 
 
-            Tetromino[0].Arr.push_back({ 8, 0 });
+            Tetromino[0].Arr.push_back({ 8, 0 }); // T tetromino coordinate asset
             Tetromino[0].Arr.push_back({ 8, 4 });
             Tetromino[0].Arr.push_back({ 12, 4 });
             Tetromino[0].Arr.push_back({ 8, 8 });
-            Tetromino[0].Colour = olc::MAGENTA;
+            Tetromino[0].Colour = olc::MAGENTA; // Colour set as magenta
 
-            Tetromino[1].Arr.push_back({ 0, 0 });
+            Tetromino[1].Arr.push_back({ 0, 0 }); // Line tetromino coordinate asset
             Tetromino[1].Arr.push_back({ 4, 0 });
             Tetromino[1].Arr.push_back({ 8, 0 });
             Tetromino[1].Arr.push_back({ 12, 0 });
-            Tetromino[1].Colour = olc::BLUE;
+            Tetromino[1].Colour = olc::BLUE; // Colour set as blue
 
-            Tetromino[2].Arr.push_back({ 0,0 });
+            Tetromino[2].Arr.push_back({ 0,0 }); // L tetromino coordinate asset
             Tetromino[2].Arr.push_back({ 4,0 });
             Tetromino[2].Arr.push_back({ 8,0 });
             Tetromino[2].Arr.push_back({ 0,4 });
-            Tetromino[2].Colour = olc::DARK_BLUE;
+            Tetromino[2].Colour = olc::DARK_BLUE; // Colour set as dark blue
 
-            Tetromino[3].Arr.push_back({ 4, 0 });
+            Tetromino[3].Arr.push_back({ 4, 0 }); // Inverted L coordinate asset
             Tetromino[3].Arr.push_back({ 8, 0 });
             Tetromino[3].Arr.push_back({ 12, 0 });
             Tetromino[3].Arr.push_back({ 12, 4 });
-            Tetromino[3].Colour = olc::CYAN;
+            Tetromino[3].Colour = olc::CYAN; // Colour set as cyan
 
-            Tetromino[4].Arr.push_back({ 8, 0 });
+            Tetromino[4].Arr.push_back({ 8, 0 }); // Cube tetromino coordinate asset
             Tetromino[4].Arr.push_back({ 8, 4 });
             Tetromino[4].Arr.push_back({ 12, 0 });
             Tetromino[4].Arr.push_back({ 12, 4 });
-            Tetromino[4].Colour = olc::YELLOW;
+            Tetromino[4].Colour = olc::YELLOW; // Colour set as yellow
 
-            Tetromino[5].Arr.push_back({ 4, 4 });
+            Tetromino[5].Arr.push_back({ 4, 4 }); // Zig-zag top right tetromino coordinate asset
             Tetromino[5].Arr.push_back({ 8, 4 });
             Tetromino[5].Arr.push_back({ 8, 0 });
             Tetromino[5].Arr.push_back({ 12, 0 });
-            Tetromino[5].Colour = olc::GREEN;
+            Tetromino[5].Colour = olc::GREEN; // Colour set as green
 
-            Tetromino[6].Arr.push_back({ 4, 0 });
+            Tetromino[6].Arr.push_back({ 4, 0 }); // Zig-zag top left tetromino coordinate asset
             Tetromino[6].Arr.push_back({ 8, 0 });
             Tetromino[6].Arr.push_back({ 8, 4 });
             Tetromino[6].Arr.push_back({ 12, 4 });
-            Tetromino[6].Colour = olc::RED;
+            Tetromino[6].Colour = olc::RED; // Colour set as red
 
 
             //----------------------------------
 
-            Next_Tetromino.push_back({});
+            Next_Tetromino.push_back({}); // Pushes a space for all the diferent tetrominos, but now for the next tetromino vector (assets)
             Next_Tetromino.push_back({});
             Next_Tetromino.push_back({});
             Next_Tetromino.push_back({});
@@ -577,218 +577,218 @@ public:
 
 
 
-            Next_Tetromino[0].Arr.push_back({ 8, 0 });
+            Next_Tetromino[0].Arr.push_back({ 8, 0 }); // T tetromino coordinate asset
             Next_Tetromino[0].Arr.push_back({ 8, 4 });
             Next_Tetromino[0].Arr.push_back({ 12, 4 });
             Next_Tetromino[0].Arr.push_back({ 8, 8 });
-            Next_Tetromino[0].Colour = olc::MAGENTA;
+            Next_Tetromino[0].Colour = olc::MAGENTA; // Colour set as magenta
 
-            Next_Tetromino[1].Arr.push_back({ 0, 0 });
+            Next_Tetromino[1].Arr.push_back({ 0, 0 }); // Line tetromino coordinate asset
             Next_Tetromino[1].Arr.push_back({ 4, 0 });
             Next_Tetromino[1].Arr.push_back({ 8, 0 });
             Next_Tetromino[1].Arr.push_back({ 12, 0 });
-            Next_Tetromino[1].Colour = olc::BLUE;
+            Next_Tetromino[1].Colour = olc::BLUE; // Colour set as blue
 
-            Next_Tetromino[2].Arr.push_back({ 0,0 });
+            Next_Tetromino[2].Arr.push_back({ 0,0 }); // L tetromino coordinate asset
             Next_Tetromino[2].Arr.push_back({ 4,0 });
             Next_Tetromino[2].Arr.push_back({ 8,0 });
             Next_Tetromino[2].Arr.push_back({ 0,4 });
-            Next_Tetromino[2].Colour = olc::DARK_BLUE;
+            Next_Tetromino[2].Colour = olc::DARK_BLUE; // Colour set as dark blue
 
-            Next_Tetromino[3].Arr.push_back({ 4, 0 });
+            Next_Tetromino[3].Arr.push_back({ 4, 0 }); // Inverted L coordinate asset
             Next_Tetromino[3].Arr.push_back({ 8, 0 });
             Next_Tetromino[3].Arr.push_back({ 12, 0 });
             Next_Tetromino[3].Arr.push_back({ 12, 4 });
-            Next_Tetromino[3].Colour = olc::CYAN;
+            Next_Tetromino[3].Colour = olc::CYAN; // Colour set as cyan
 
-            Next_Tetromino[4].Arr.push_back({ 8, 0 });
+            Next_Tetromino[4].Arr.push_back({ 8, 0 }); // Cube tetromino coordinate asset
             Next_Tetromino[4].Arr.push_back({ 8, 4 });
             Next_Tetromino[4].Arr.push_back({ 12, 0 });
             Next_Tetromino[4].Arr.push_back({ 12, 4 });
-            Next_Tetromino[4].Colour = olc::YELLOW;
+            Next_Tetromino[4].Colour = olc::YELLOW; // Colour set as yellow
 
-            Next_Tetromino[5].Arr.push_back({ 4, 4 });
+            Next_Tetromino[5].Arr.push_back({ 4, 4 }); // Zig-zag top right tetromino coordinate asset
             Next_Tetromino[5].Arr.push_back({ 8, 4 });
             Next_Tetromino[5].Arr.push_back({ 8, 0 });
             Next_Tetromino[5].Arr.push_back({ 12, 0 });
-            Next_Tetromino[5].Colour = olc::GREEN;
+            Next_Tetromino[5].Colour = olc::GREEN; // Colour set as green
 
-            Next_Tetromino[6].Arr.push_back({ 4, 0 });
+            Next_Tetromino[6].Arr.push_back({ 4, 0 }); // Zig-zag top left tetromino coordinate asset
             Next_Tetromino[6].Arr.push_back({ 8, 0 });
             Next_Tetromino[6].Arr.push_back({ 8, 4 });
             Next_Tetromino[6].Arr.push_back({ 12, 4 });
-            Next_Tetromino[6].Colour = olc::RED;
+            Next_Tetromino[6].Colour = olc::RED; // Colour set as red
 
-            OffSet_X_NextTetromino = ((((ScreenWidth() - FieldWidth) / 2) - 2) + FieldWidth + Block_Size) + 1;
+            OffSet_X_NextTetromino = ((((ScreenWidth() - FieldWidth) / 2) - 2) + FieldWidth + Block_Size) + 1; // Offset for the box for the slot of the next tetromino (set manually)
             OffSet_Y_NextTetromino = ((ScreenHeight() - FieldHeight) / 2) - 2;
 
-            OffSet_X_SavedTetromino = (((ScreenWidth() - FieldWidth) / 2) - 2) - (5 * Block_Size);
+            OffSet_X_SavedTetromino = (((ScreenWidth() - FieldWidth) / 2) - 2) - (5 * Block_Size); // Offset fro the slot of the saved tetromino (set manually)
             OffSet_Y_SavedTetromino = ((ScreenHeight() - FieldHeight) / 2) - 2;
         }
 
-        for (int j = 0; j < Tetromino[Tetromino_Type].Arr.size(); j++) {
-            int x = Tetromino[Tetromino_Type].Arr[j].x + Pos_X;
-            int y = Tetromino[Tetromino_Type].Arr[j].y + Pos_Y;
-            olc::Pixel Colour = Tetromino[Tetromino_Type].Colour;
+        for (int j = 0; j < Tetromino[Tetromino_Type].Arr.size(); j++) { // Goes through all the blocks of the current tetromino
+            int x = Tetromino[Tetromino_Type].Arr[j].x + Pos_X; // Gets its x position and offsets it with the player box coordinate at x
+            int y = Tetromino[Tetromino_Type].Arr[j].y + Pos_Y; // Gets its y position and offsets it with the player box coordinate at y
+            olc::Pixel Colour = Tetromino[Tetromino_Type].Colour; // Gets the colour of the tetromino
 
-            FillRect(x, y, Block_Size, Block_Size, Colour);
+            FillRect(x, y, Block_Size, Block_Size, Colour); // Fills a block size rect on those coordinates and with that colour
         }
 
-        for (int i = 0; i < Tetromino_Mesh.size(); i++) {
-            for (int j = 0; j < Tetromino_Mesh[i].Arr.size(); j++) {
-                int x = Tetromino_Mesh[i].Arr[j].x;
-                int y = Tetromino_Mesh[i].Arr[j].y;
-                olc::Pixel Colour = Tetromino_Mesh[i].Colour;
+        for (int i = 0; i < Tetromino_Mesh.size(); i++) { // Goes thorugh al the tetrominos stuck at the floor
+            for (int j = 0; j < Tetromino_Mesh[i].Arr.size(); j++) { // Goes thorugh all the blocks from each of those tetrominos
+                int x = Tetromino_Mesh[i].Arr[j].x; // Gets its x position (mesh tetrominos save the exact position of they're elements)
+                int y = Tetromino_Mesh[i].Arr[j].y; // Gets its y position
+                olc::Pixel Colour = Tetromino_Mesh[i].Colour; // Gets the colour of that tetromino
 
-                FillRect(x, y, Block_Size, Block_Size, Colour);
+                FillRect(x, y, Block_Size, Block_Size, Colour); // Fills a block size rect on those coordinates and with that colour
             }
         }
 
-        for (int j = 0; j < Next_Tetromino[Next_Type].Arr.size(); j++) {
-            int x = Next_Tetromino[Next_Type].Arr[j].x + OffSet_X_NextTetromino;
-            int y = Next_Tetromino[Next_Type].Arr[j].y + OffSet_Y_NextTetromino;
-            int x1 = x + Block_Size;
-            int y1 = y + Block_Size;
-            olc::Pixel Colour = Next_Tetromino[Next_Type].Colour;
+        for (int j = 0; j < Next_Tetromino[Next_Type].Arr.size(); j++) { // Goes thorugh all the blocks of the tetromino saved at the top right corner
+            int x = Next_Tetromino[Next_Type].Arr[j].x + OffSet_X_NextTetromino; // Gets its x position and offsets it with the next tetromino box coordinate at x
+            int y = Next_Tetromino[Next_Type].Arr[j].y + OffSet_Y_NextTetromino; // Gets its y position and offsets it with the next tetromino box coordinate at y
+            int x1 = x + Block_Size; // Gets the bottom right x coordinate (useless)
+            int y1 = y + Block_Size; // Gets the bottom right y coordinate (also usless)
+            olc::Pixel Colour = Next_Tetromino[Next_Type].Colour; // Saves the colour
 
-            FillRect(x, y, Block_Size, Block_Size, Colour);
+            FillRect(x, y, Block_Size, Block_Size, Colour); // Fills a block size rect on those coordinates and with that colour
         }
 
-        if (HasBeenPressed == true) {
+        if (HasBeenPressed == true) { // If shift has been pressed before in the round
 
-            for (int j = 0; j < Next_Tetromino[Saved_Type].Arr.size(); j++) {
-                int x = Next_Tetromino[Saved_Type].Arr[j].x + OffSet_X_SavedTetromino;
-                int y = Next_Tetromino[Saved_Type].Arr[j].y + OffSet_Y_SavedTetromino;
-                int x1 = x + Block_Size;
-                int y1 = y + Block_Size;
-                olc::Pixel Colour = Next_Tetromino[Saved_Type].Colour;
+            for (int j = 0; j < Next_Tetromino[Saved_Type].Arr.size(); j++) { // Uses the Next tetromino vector to check the types and iterates thorugh the blocks of the saved type
+                int x = Next_Tetromino[Saved_Type].Arr[j].x + OffSet_X_SavedTetromino; // Gets its x position and offsets it with the saved tetromino box coordinate at x
+                int y = Next_Tetromino[Saved_Type].Arr[j].y + OffSet_Y_SavedTetromino; // Gets its y position and offsets it with the saved tetromino box coordinate at y
+                int x1 = x + Block_Size; // Gets the bottom right x coordinate (useless)
+                int y1 = y + Block_Size; // Gets the bottom right y coordinate (also usless)
+                olc::Pixel Colour = Next_Tetromino[Saved_Type].Colour; // Saves the colour
 
-                FillRect(x, y, Block_Size, Block_Size, Colour);
+                FillRect(x, y, Block_Size, Block_Size, Colour); // Fills a block size rect on those coordinates and with that colour
             }
 
             
 
         }
 
-        auto transpColor = olc::Pixel(0, 0, 0, 150);
-        for (int i = OffSet_Y_SavedTetromino; i < OffSet_Y_SavedTetromino + (4 * Block_Size) + 1; i = i + 4) {
+        auto transpColor = olc::Pixel(0, 0, 0, 150); // Sets a transparent grey colour
+        for (int i = OffSet_Y_SavedTetromino; i < OffSet_Y_SavedTetromino + (4 * Block_Size) + 1; i = i + 4) { // Draws 4 semitransparent lines horizontally in the saved tetromino box
             DrawLine(OffSet_X_SavedTetromino, i, OffSet_X_SavedTetromino + (4 * Block_Size), i, transpColor);
         }
-        for (int i = OffSet_X_SavedTetromino; i < OffSet_X_SavedTetromino + (4 * Block_Size) + 1; i = i + 4) {
+        for (int i = OffSet_X_SavedTetromino; i < OffSet_X_SavedTetromino + (4 * Block_Size) + 1; i = i + 4) { // Draws 4 semitransparent lines vertically in the saved tetromino box
             DrawLine(i, OffSet_Y_SavedTetromino, i, OffSet_Y_SavedTetromino + (4 * Block_Size), transpColor);
         }
 
-        for (int i = OffSet_Y_NextTetromino; i < OffSet_Y_NextTetromino + (4 * Block_Size) + 1; i = i + 4) {
+        for (int i = OffSet_Y_NextTetromino; i < OffSet_Y_NextTetromino + (4 * Block_Size) + 1; i = i + 4) { // Draws 4 semitransparent lines horizontally in the next tetromino box
             DrawLine(OffSet_X_NextTetromino, i, OffSet_X_NextTetromino + (4 * Block_Size), i, transpColor);
         }
-        for (int i = OffSet_X_NextTetromino; i < OffSet_X_NextTetromino + (4 * Block_Size) + 1; i = i + 4) {
+        for (int i = OffSet_X_NextTetromino; i < OffSet_X_NextTetromino + (4 * Block_Size) + 1; i = i + 4) { // Draws 4 semitransparent lines vertically in the next tetromino box
             DrawLine(i, OffSet_Y_NextTetromino, i, OffSet_Y_NextTetromino + (4 * Block_Size), transpColor);
         }
     }
 
-    bool CheckToEraseCompleteLine() {
-        int multiplication = 0;
-        int cont = 0;
-        for (int h = 28; h <= ((((ScreenHeight() - FieldHeight) / 2) - 2) + FieldHeight) - (2 * Block_Size); h = h + 4) {
-            cont = 0;
+    bool CheckToEraseCompleteLine() { // Checks if the bottom line is complete
+        int multiplication = 0; // Multiplicator for the score in case of consecutive completed lines in the same round
+        int cont = 0; // Counter for the blocks in a horizontal line
+        for (int h = 28; h <= ((((ScreenHeight() - FieldHeight) / 2) - 2) + FieldHeight) - (2 * Block_Size); h = h + 4) { // Iterates thorugh all the vertical lines inside the field (y coordinate)
+            cont = 0; // Counter set at 0, because we are at a new horizontal line
 
-            for (int a = (((ScreenWidth() - FieldWidth) / 2) - 2); a <= (((((ScreenWidth() - FieldWidth) / 2) - 2) + Block_Size) + FieldWidth - (3 * Block_Size)); a = a + 4) {
+            for (int a = (((ScreenWidth() - FieldWidth) / 2) - 2); a <= (((((ScreenWidth() - FieldWidth) / 2) - 2) + Block_Size) + FieldWidth - (3 * Block_Size)); a = a + 4) { // Iterates through all the blocks horizontally inside the field (x coordinate)
 
-                for (int j = 0; j <= MeshIndex; j++) {
-                    MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size();
-                    for (int k = 0; k < MeshTetrominoArraySize; k++) {
+                for (int j = 0; j <= MeshIndex; j++) { // Goes trough all the elements of the floor mesh
+                    MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size(); // Gets the amount of blocks of that element
+                    for (int k = 0; k < MeshTetrominoArraySize; k++) { // Goes thorugh all the block of the element
 
-                        if (a == Tetromino_Mesh[j].Arr[k].x and h == Tetromino_Mesh[j].Arr[k].y) {
-                            cont++;
+                        if (a == Tetromino_Mesh[j].Arr[k].x and h == Tetromino_Mesh[j].Arr[k].y) { // If both iterable(only a horizonal line, since we are in the horizontal for loop) and element coordinates are the same
+                            cont++; // The counter increasses by one
                         }
                     }
                 }
             }
-            if (cont >= 13) {
-                multiplication++;
-                LineasCompletadas++;
-                for (int j = 0; j <= MeshIndex; j++) {
-                    score = score + (10 * multiplication);
+            if (cont >= 13) { // If the counter si greater than 13 (max amount of blocks in a horizontal line)
+                multiplication++; // Increasses the multiplication variable
+                LineasCompletadas++; // Increasses the completed lines counter
+                for (int j = 0; j <= MeshIndex; j++) { // Goes thorugh all the elements in the mesh
+                    score = score + (10 * multiplication); // Increasses the score with a formula
 
-                    MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size();
-                    for (int k = 0; k < MeshTetrominoArraySize; k++) {
-                        float y = Tetromino_Mesh[j].Arr[k].y;
-                        y = y + Block_Size;
-                        if (Tetromino_Mesh[j].Arr[k].y < h) Tetromino_Mesh[j].Arr[k].y = y;
-                        else if (Tetromino_Mesh[j].Arr[k].y == h) Tetromino_Mesh[j].Arr[k].y = ((((ScreenHeight() - FieldHeight) / 2) - 2) + FieldHeight) - Block_Size;
+                    MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size(); // Gets the amount of blocks in the element
+                    for (int k = 0; k < MeshTetrominoArraySize; k++) { // Goes thorugh all the blocks inside the element
+                        float y = Tetromino_Mesh[j].Arr[k].y; // Gets the y coordinate of each element
+                        y = y + Block_Size; // Moves it down by one block size unit
+                        if (Tetromino_Mesh[j].Arr[k].y < h) Tetromino_Mesh[j].Arr[k].y = y; // If the current y (from the current tetromino at the mesh) is less than the y where the completed line was found, that y will now be the y below at one block size unit
+                        else if (Tetromino_Mesh[j].Arr[k].y == h) Tetromino_Mesh[j].Arr[k].y = ((((ScreenHeight() - FieldHeight) / 2) - 2) + FieldHeight) - Block_Size; // If that y is less than the line completed y, the block si moved one block unit below the field (this could be a bottle neck)
                     }
                 }
             }
         }
-        return false;
+        return false; // A false is retourned everytime
     }
 
-    bool GameOver() {
-        for (int j = 0; j <= MeshIndex; j++) {
-            MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size();
-            for (int k = 0; k < MeshTetrominoArraySize; k++) {
-                if (Tetromino_Mesh[j].Arr[k].y <= 32) return true;
+    bool GameOver() { // Checks if there is a game over
+        for (int j = 0; j <= MeshIndex; j++) { // Goes thorugh all the elements of the mesh
+            MeshTetrominoArraySize = Tetromino_Mesh[MeshIndex].Arr.size(); // Gets the size of the current element
+            for (int k = 0; k < MeshTetrominoArraySize; k++) { // Goes through all the blocks of the element
+                if (Tetromino_Mesh[j].Arr[k].y <= 32) return true; // If any of those has a y coordinate greater or equal to 32 (field upper limit) there is a game over
             }
         }
 
 
-        return false;
+        return false; // There is no game over
     }
 
-    void GainSpeed() {
+    void GainSpeed() { //Switch case for gaining speed depending on the score
         switch (score) {
         case 5:
-            Speed = 25;
+            Speed = 25; // Slow
             break;
 
         case 10:
-            Speed = 20;
+            Speed = 20; // Mid slow
             break;
 
         case 20:
-            Speed = 15;
+            Speed = 15; // Normal
             break;
 
         case 30:
-            Speed = 10;
+            Speed = 10; // Fast
             break;
 
         case 40:
-            Speed = 5;
+            Speed = 5; // Doom
             break;
         }
     }
 
 
-    virtual bool OnUserCreate() {
+    virtual bool OnUserCreate() { // Variable starting function
 
         //gSoloud.init();
 
-        Pos_X = (float(ScreenWidth()) / 2);
+        Pos_X = (float(ScreenWidth()) / 2); // Default player x pos
 
-        sprFondo = new olc::Sprite("Sprites/senku.jpg");
-        Fondo = new olc::Decal(sprFondo);
+        sprFondo = new olc::Sprite("Sprites/senku.jpg"); // Gets the image and sets if as a sprite
+        Fondo = new olc::Decal(sprFondo); // Makes the sprite a decal
 
-        Layer1 = CreateLayer();
-        SetDrawTarget(Layer1);
-        EnableLayer(Layer1, true);
-        SetDrawTarget(nullptr);
+        Layer1 = CreateLayer(); // Creates a layer
+        SetDrawTarget(Layer1); // Sets its draw target
+        EnableLayer(Layer1, true); // Layer enabeled
+        SetDrawTarget(nullptr); // Draw tardet reset
 
-        Layer2 = CreateLayer();
-        SetDrawTarget(Layer2);
-        EnableLayer(Layer2, true);
-        SetDrawTarget(nullptr);
+        Layer2 = CreateLayer(); // Creates a layer
+        SetDrawTarget(Layer2); // Sets its draw target
+        EnableLayer(Layer2, true); // Layer enabeled
+        SetDrawTarget(nullptr); // Draw target reset
 
         //TitleMusic.load("Audio/TetrisTheme.wav");
 
         //gSoloud.play(TitleMusic);
 
-        return true;
+        return true; // Returns true as default
     }
 
-    virtual bool OnUserUpdate(float fElapsedTime) {
+    virtual bool OnUserUpdate(float fElapsedTime) { // Updates each frame at a constant pace
 
-        double dExpectedTime = 1.0f / 60.0f;
+        double dExpectedTime = 1.0f / 60.0f; // Escpected time to acomplish 60 fps
         if (dExpectedTime >= GetElapsedTime()) Sleep((dExpectedTime - GetElapsedTime()) * 1000);
 
         //PlaySample(nSample);
