@@ -29,7 +29,7 @@ private:
     int cont = 0; // General counter that increasses each frame
     int cont_2 = 0; // Counter to get the state of the rotation of an specific tetromino (stick tetromino)
     int cont_3 = 0; // Counter for time in contact with floor or a tetromino from the mesh
-    int cont_4 = 0;
+    int cont_4 = 0; // Counter automated to make the current tetromino fall
     int FramesToGoDown = 0;
 
     int Tetromino_Type = rand() % 7; // Initialize the tetromino at a random type of piece from the 7 ones
@@ -779,9 +779,9 @@ public:
         EnableLayer(Layer2, true); // Layer enabeled
         SetDrawTarget(nullptr); // Draw target reset
 
-        //TitleMusic.load("Audio/TetrisTheme.wav");
+        //TitleMusic.load("Audio/TetrisTheme.wav"); // Unused audio sample
 
-        //gSoloud.play(TitleMusic);
+        //gSoloud.play(TitleMusic); // Unused function to play the title music
 
         return true; // Returns true as default
     }
@@ -789,90 +789,90 @@ public:
     virtual bool OnUserUpdate(float fElapsedTime) { // Updates each frame at a constant pace
 
         double dExpectedTime = 1.0f / 60.0f; // Escpected time to acomplish 60 fps
-        if (dExpectedTime >= GetElapsedTime()) Sleep((dExpectedTime - GetElapsedTime()) * 1000);
+        if (dExpectedTime >= GetElapsedTime()) Sleep((dExpectedTime - GetElapsedTime()) * 1000); // If the elapsed time is more than the espected to acomplish 60 fps, it sleeps the amount of diference to acomplish the 60 fps
 
-        //PlaySample(nSample);
+        //PlaySample(nSample); // Unused function to play an audio sample
 
-        Clear(olc::BLANK);
-        Puntaje.clear();
+        Clear(olc::BLANK); // Makes the background a blank screen at the start of each frame
+        Puntaje.clear(); // Clears the score
 
-        SetDrawTarget(Layer1);
-        Clear(olc::BLANK);
-        auto transpColor = olc::Pixel(255, 255, 255, 30);
-        FillRect({ (((ScreenWidth() - FieldWidth) / 2) - 2) + Block_Size , (((ScreenHeight() - FieldHeight) / 2) - 2) }, { 53, 97 }, transpColor);
-        FillRect({ OffSet_X_SavedTetromino, OffSet_Y_SavedTetromino }, { (4 * Block_Size) , (4 * Block_Size) }, transpColor);
-        FillRect({ OffSet_X_NextTetromino, OffSet_Y_NextTetromino }, { (4 * Block_Size) , (4 * Block_Size) }, transpColor);
-        FillRect({ 43, 135 }, { 70 , 30 }, transpColor);
-        SetDrawTarget(nullptr);
+        SetDrawTarget(Layer1); // Routine to draw the first layer
+        Clear(olc::BLANK); // Clears the layer with a blank screen
+        auto transpColor = olc::Pixel(255, 255, 255, 30); // Creates a white transparent color
+        FillRect({ (((ScreenWidth() - FieldWidth) / 2) - 2) + Block_Size , (((ScreenHeight() - FieldHeight) / 2) - 2) }, { 53, 97 }, transpColor); // Draws a transparent block on the back of the field
+        FillRect({ OffSet_X_SavedTetromino, OffSet_Y_SavedTetromino }, { (4 * Block_Size) , (4 * Block_Size) }, transpColor); // Draws a transparent block on the back of the saved tetromino slot
+        FillRect({ OffSet_X_NextTetromino, OffSet_Y_NextTetromino }, { (4 * Block_Size) , (4 * Block_Size) }, transpColor); // Draws a transparent block on the back of the next tetromino slot
+        FillRect({ 43, 135 }, { 70 , 30 }, transpColor); // Draws a rectangle on a range where the score will be
+        SetDrawTarget(nullptr); // Sets the draw target as nulptr (stops drawing in that layer)
 
-        SetDrawTarget(Layer2);
-        SetPixelMode(olc::Pixel::ALPHA);
-        DrawDecal({ -60,0 }, Fondo, { 0.08,0.08 });
-        SetPixelMode(olc::Pixel::NORMAL);
-        SetDrawTarget(nullptr);
+        SetDrawTarget(Layer2); // Routine to draw the second layer
+        SetPixelMode(olc::Pixel::ALPHA); // Sets the pixel mode as alpha to transparent the decals
+        DrawDecal({ -60,0 }, Fondo, { 0.08,0.08 }); // Draws the image gotten
+        SetPixelMode(olc::Pixel::NORMAL); // Sets the pixel mode as normal to stop drawing transparent decals
+        SetDrawTarget(nullptr); // Sets the draw target as nulptr (stops drawing in that layer)
 
-        SaveTetromino();
+        SaveTetromino(); // Does the save tetromino function
 
-        if (cont_4 > (Speed/(GetElapsedTime()*25)) and DoesPieceFitDown() and DoesPieceFit3()) {
-            Pos_Y = Pos_Y + 4;
-            cont_4 = 0;
+        if (cont_4 > (Speed/(GetElapsedTime()*25)) and DoesPieceFitDown() and DoesPieceFit3()) { // Every certain amount of time (if cont_4 greater than a certain time) ans the piece fits down
+            Pos_Y = Pos_Y + 4; // Increases the player pos on y by 4
+            cont_4 = 0; // Resets cont_4
         }
 
-        if (NextRotationDoesFit()) {
-            Rotate_Tetromino();
+        if (NextRotationDoesFit()) { // If a rotation to the right fits
+            Rotate_Tetromino(); // Does the rotation function
         }
 
-        MoveTetromino();
+        MoveTetromino(); // Moves the tetrominos with the function
 
-        while (!DoesPieceFit()) {
+        while (!DoesPieceFit()) { // Field boundaries, while they are active, the position is corrected
             Pos_X -= 4;
         }
-        while (!DoesPieceFit2()) {
+        while (!DoesPieceFit2()) { // Field boundaries, while they are active, the position is corrected
             Pos_X += 4;
         }
 
-        MeshTetrominos();
+        MeshTetrominos(); // Does all the functions for the bottom tetrominos at the floor mesh
 
-        DrawTetromino();
+        DrawTetromino(); // Draws all the tetrominos
 
-        DrawField();
+        DrawField(); // Draws the field
 
-        GainSpeed();
+        GainSpeed(); // Checks the counter to se if the speed si increassed
 
 
-        UserTetrominoArraySize = Tetromino[Tetromino_Type].Arr.size();
-        MeshIndex = Tetromino_Mesh.size() - 1;
+        UserTetrominoArraySize = Tetromino[Tetromino_Type].Arr.size(); // Gets the amount of blocks from the current tetromino
+        MeshIndex = Tetromino_Mesh.size() - 1; // Gets the amoun of tetrominos at the floor mesh minus 1
 
-        if (HasBeenPressed) SavedArraySize = Next_Tetromino[Saved_Type].Arr.size();
+        if (HasBeenPressed) SavedArraySize = Next_Tetromino[Saved_Type].Arr.size(); // If the shift has been pressed during the round, updates the number of blocks at the saved tetromino (not used)
 
-        score = Tetromino_Mesh.size();
-        PuntajeReal = LineasCompletadas*1000 + score * 100;
+        score = Tetromino_Mesh.size(); // Sets the score as the amount of tetrominos at the floor mesh
+        PuntajeReal = LineasCompletadas*1000 + score * 100; // Formula to obtain the final score, considers the amount com completed lines and the amount of tetrominos at the floor mesh
         
-        Puntaje += to_string(PuntajeReal);
+        Puntaje += to_string(PuntajeReal); // Makes the score a string
 
-        DrawString({ 48, 140 }, "Puntaje:", olc::BLACK);
-        DrawString({ 50, 150 }, Puntaje, olc::BLACK);
+        DrawString({ 48, 140 }, "Puntaje:", olc::BLACK); // Draws a string on screen that says "Puntaje", translated means "score"
+        DrawString({ 50, 150 }, Puntaje, olc::BLACK); // Draws the score on screen
 
-        cont++;
-        cont_4++;
-        return true;
+        cont++; // Increasses the general counter
+        cont_4++; // Increasses the fourth counter
+        return true; // Returns true as default
     }
 
-    virtual bool OnUserDestroy()
+    virtual bool OnUserDestroy() // Destructor
     {
-        //DestroyAudio();
-        return true;
+        //DestroyAudio(); // unused audio destructor
+        return true; // Returns true by default
     }
 
 };
 
 
-int main() {
+int main() { // Main function
 
-    Juego Demo;
+    Juego Demo; // Creates a Juego object named Demo (with all the functions)
 
-    if (Demo.Construct(160, 160, 4, 4))
-        Demo.Start();
+    if (Demo.Construct(160, 160, 4, 4)) // Constructs the demo
+        Demo.Start(); // Starts the demo
 
-    else cout << "Construct Failed";
+    else cout << "Construct Failed"; // If can not construct, returns error
 }
