@@ -146,7 +146,7 @@ int main(){
   ifstream infile;
   ofstream outfile;
 
-  cout << "Hola\n";
+  cout << "Hola2\n";
 
   std::vector<std::string> lines;
   string line;
