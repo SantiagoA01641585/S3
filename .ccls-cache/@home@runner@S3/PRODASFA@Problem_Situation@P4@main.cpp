@@ -73,6 +73,7 @@ class Graph{
   void addEdge(int, int);
   void printMatrix();
   void ResetVisited();
+  void setNode(string line);
   void setNodes(int[]);
 };
 
