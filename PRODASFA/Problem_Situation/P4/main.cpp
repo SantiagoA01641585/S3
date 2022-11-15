@@ -188,7 +188,7 @@ int main(){
   infile.close();
 
   cout << "Max InDegree: " << graph.getMaxInDegree().first << " - " << 
-    graph.getMaxInDegree().second << endl;
+    graph.getMaxInDegree().second << endl; // Max In Degree
   cout << "Max OutDegree: " << graph.getMaxOutDegree().first << " - " <<           
     graph.getMaxOutDegree().second << endl;
   
