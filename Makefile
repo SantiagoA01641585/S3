@@ -10,7 +10,7 @@ HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.
 #	$(CXX) $(CXXFLAGS) $(SRCS) -o "$@"
 
 main:
-	(cd ./PRODASFA/Problem_Situation/P4;	g++ main.cpp -o main;	./main)
+	(cd ./PRODASFA/Problem_Situation/P4;	g++ main.cpp -o main.exe;	./main.exe)
 
 main-debug: $(SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -O0 $(SRCS) -o "$@"
