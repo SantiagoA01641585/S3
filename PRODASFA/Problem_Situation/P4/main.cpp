@@ -146,6 +146,8 @@ int main(){
   ifstream infile;
   ofstream outfile;
 
+  cout << "Hola\n";
+
   std::vector<std::string> lines;
   string line;
 
