@@ -6,7 +6,7 @@
 using namespace std;
 
 // Iker Ochoa Villaseñor - A01640984
-// Santiago Vera Espinosa - A01641585
+// Santiago Vera Espinoza - A01641585 
 
 class Node{
 private:
