@@ -12,32 +12,35 @@ using namespace std;
 //-------------------------------------------------------------------------
 
 // Complexity O(n)
-vector<int> separateIP(string ip) // Separates an IP, from a string into a vector
+vector<long int> separateIP(string ip) // Separates an IP, from a string into a vector
 {
     istringstream iss(ip);
-    std::vector<int> tokens;
+    std::vector<long int> tokens;
     std::string token;
     while (std::getline(iss, token, '.')) // Fetches for the "."
     {
         if (!token.empty())
-            tokens.push_back(stoi(token)); // Pushes the token back
+            tokens.push_back(stol(token)); // Pushes the token back
     }
+
+    cout << tokens[0]*10000000 << " | ";
 
     return tokens; // Returns the vector
 }
 
-int ipStringToInt(string ip){
-  vector <int> arr = separateIP(ip);
+long int ipStringToInt(string ip){
+  vector <long int> arr = separateIP(ip);
 
   long int res = 0;
-  long int aux = 0;
+  long int aux = 1000000000;
+  cout << aux << " - ";
   for (int  i = 0; i<arr.size(); i++){
     switch (i){
       case 0:
-        aux = long(arr[0]);
+        aux += (long int)arr[0];
         aux *= 10000000;
         res += aux;
-        cout << aux << " - ";
+        cout << arr[0] * 10000000 << " - ";
         break;
 
       case 1:
@@ -348,8 +351,10 @@ int main(){
   // Open the input file
   infile.open("bitacora.txt");
 
+  int cont = 0;
   // If the file is open
   while (getline(infile, line)){
+    cont++;
     cout << line << " - ";
     vector<string> values = getData(line);
     // Hashear IP (hashFunction(values[1]))
@@ -361,6 +366,8 @@ int main(){
     Nodo newNode(values);
     // E insertar nodo en hash table
     table.insert(newNode);
+
+    if (cont>212) break;
   }
 
   table.printIPData("543.89.843.57");
