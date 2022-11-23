@@ -30,18 +30,24 @@ int ipStringToInt(string ip){
   vector <int> arr = separateIP(ip);
 
   long int res = 0;
+  long int aux = 0;
   for (int  i = 0; i<arr.size(); i++){
     switch (i){
       case 0:
-        res += arr[0] * 10000000;
+        aux = long(arr[0]);
+        aux *= 10000000;
+        res += aux;
+        cout << aux << " - ";
         break;
 
       case 1:
-        res += arr[1] * 100000;
+        aux = long(arr[1]);
+        res += aux * 100000;
         break;
 
       case 2:
-        res += arr[2] * 100;
+        aux = long(arr[2]);
+        res += aux * 100;
         break;
 
       case 3:
