@@ -12,45 +12,36 @@ using namespace std;
 //-------------------------------------------------------------------------
 
 // Complexity O(n)
-vector<long int> separateIP(string ip) // Separates an IP, from a string into a vector
+vector<long long int> separateIP(string ip) // Separates an IP, from a string into a vector
 {
     istringstream iss(ip);
-    std::vector<long int> tokens;
+    std::vector<long long int> tokens;
     std::string token;
     while (std::getline(iss, token, '.')) // Fetches for the "."
     {
         if (!token.empty())
-            tokens.push_back(stol(token)); // Pushes the token back
+            tokens.push_back(stoll(token)); // Pushes the token back
     }
-
-    cout << tokens[0]*10000000 << " | ";
 
     return tokens; // Returns the vector
 }
 
-long int ipStringToInt(string ip){
-  vector <long int> arr = separateIP(ip);
+long long int ipStringToInt(string ip){
+  vector <long long int> arr = separateIP(ip);
 
-  long int res = 0;
-  long int aux = 1000000000;
-  cout << aux << " - ";
+  long long int res = 0;
   for (int  i = 0; i<arr.size(); i++){
     switch (i){
       case 0:
-        aux += (long int)arr[0];
-        aux *= 10000000;
-        res += aux;
-        cout << arr[0] * 10000000 << " - ";
+        res = arr[0] * 10000000;
         break;
 
       case 1:
-        aux = long(arr[1]);
-        res += aux * 100000;
+        res += arr[1] * 100000;
         break;
 
       case 2:
-        aux = long(arr[2]);
-        res += aux * 100;
+        res += arr[2] * 100;
         break;
 
       case 3:
@@ -61,8 +52,6 @@ long int ipStringToInt(string ip){
         break;
     }
   }
-
-  cout << res;
 
   return res;
 }
@@ -226,7 +215,7 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             return val; // Returns the number
         }
 
-        int hashFunction(int val){ // Hash function using multiplication method - Complexity O(1)
+        int hashFunction(long long int val){ // Hash function using multiplication method - Complexity O(1)
             float a = (sqrt(5) - 1) / 2; // A constant sugested by Knuth
 
             int key = (int)((fmod((float(val)*a), 1))*capacity);
@@ -238,12 +227,11 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             if (elements==capacity) return -1; // If the hash table is full
 
             string value_str = val.getIP();
-            int value = ipStringToInt(value_str);
+            long long int value = ipStringToInt(value_str);
             int key = hashFunction(value); // Gets the initial key
 
-            table[8405].setIP("NULL");
+            cout << value << endl;
 
-            cout << " " << key << table[8405].getIP() << table[key].getIP();
             int i=1;
             while(table[key].getIP() != "NULL"){ // Increasses the iterable until it finds a free space
                 if (table[key].getIP() == value_str) return key;
@@ -258,8 +246,6 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
 
         void insert(Nodo val){ // Inserts a new value - Complexity O(1 + n/m)
             int key = getKey(val); // Gets the key
-
-            cout << " - " << key << endl;
 
             if (key == -1) return; // If full, it exits
 
@@ -332,7 +318,7 @@ int main(){
   quadraticHashTable table(16807, 5, 8);
 
   
-  vector <string> arr1 = getData("Aug 28 23:07:49 897.53.984.6:6710 Failed password for root");
+  /*vector <string> arr1 = getData("Aug 28 23:07:49 897.53.984.6:6710 Failed password for root");
   vector <string> arr2 = getData("Aug 28 23:07:49 897.53.984.6:8462 Failed password for root");
 
   Nodo n1(arr1);
@@ -344,19 +330,21 @@ int main(){
 
   vector <string> val = getData("Jun 3 13:11:26 543.89.843.57:5249 Failed password for illegal user guest");
   Nodo ey(val);
-  table.insert(ey);
+  table.insert(ey);*/
 
-  table.printIPData("897.53.984.6");
+  //table.printIPData("897.53.984.6");
 
   // Open the input file
   infile.open("bitacora.txt");
 
-  int cont = 0;
   // If the file is open
-  while (getline(infile, line)){
+  int cont = 0;
+  bool continua = true;
+  while (getline(infile, line) && continua){
     cont++;
     cout << line << " - ";
     vector<string> values = getData(line);
+    
     // Hashear IP (hashFunction(values[1]))
     // Ver si ya existe un nodo en la hash table
     // Si ya existe, incementar el numero de accesos 
@@ -367,10 +355,13 @@ int main(){
     // E insertar nodo en hash table
     table.insert(newNode);
 
-    if (cont>212) break;
+    if (cont>=2){
+      continua = false;
+      continue;
+    }
   }
 
-  table.printIPData("543.89.843.57");
+  //table.printIPData("543.89.843.57");
 
   cout << endl;
   return 0;
