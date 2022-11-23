@@ -136,7 +136,8 @@ public:
   }
 };
 
-class quadraticHashTable { // Hash table that resolves colissions with quadratic probing
+class quadraticHashTable { // Hash table that resolves colissions with quadratic
+                           // probing
 private:
   // Atributes
   int capacity;
@@ -148,13 +149,15 @@ private:
 
 public:
   // Constructors
-  quadraticHashTable(int capacity, int c1, int c2) { // Sets the capacity and the constants this->capacity = getPrime(capacity);
+  quadraticHashTable(int capacity, int c1,
+                     int c2) { // Sets the capacity and the constants
+    this->capacity = getPrime(capacity);
     this->c1 = getPrime(c1);
     this->c2 = getPrime(c2);
     table = new Nodo[this->capacity];
 
     for (int i = 0; i < this->capacity; i++) {
-        table[i].setIP("NULL");
+      table[i].setIP("NULL");
     }
 
     this->elements = 0;
@@ -170,30 +173,34 @@ public:
   void setTable(Nodo *table) { this->table = table; }
 
   // Methods
-  bool checkPrime(int val) { // Checks if the value is a prime number - Complexity O(sqrt(n))
+  bool checkPrime(int val) { // Checks if the value is a prime number -
+                             // Complexity O(sqrt(n))
     if (val == 0 || val == 1)
       return false;
 
     for (int i = 2; i * i <= val; i++) {
-        if (val % i == 0)
+      if (val % i == 0)
         return false;
     }
 
     return true;
   }
 
-  int getPrime(int val) { // Goes to the next prime number - Complexity O((n^2)(sqrt(n))) (Given by Andrica's Conjecture)
+  int getPrime(int val) { // Goes to the next prime number - Complexity
+                          // O((n^2)(sqrt(n))) (Given by Andrica's Conjecture)
     if (val % 2 == 0)
-        val++; // Makes de value odd as all prime numbers after 2 have to be odd
+      val++; // Makes de value odd as all prime numbers after 2 have to be odd
 
     while (!checkPrime(val)) { // While the number is not a prime number
-        val += 2;                // Increasses by two
+      val += 2;                // Increasses by two
     }
 
     return val; // Returns the number
   }
 
-  int hashFunction(long long int val) { // Hash function using division method - Complexity O(1)
+  int hashFunction(long long int val) { // Hash function using division method -
+                                        // Complexity O(1)
+    float a = (sqrt(5) - 1) / 2;        // A constant sugested by Knuth
 
     int key = val % capacity;
 
@@ -209,11 +216,13 @@ public:
     int key = hashFunction(value); // Gets the initial key
 
     int i = 1;
-    while (table[key].getIP() != "NULL") { // Increasses the iterable until it finds a free space
+    while (table[key].getIP() !=
+           "NULL") { // Increasses the iterable until it finds a free space
       if (table[key].getIP() == value_str)
         return key;
 
-      key = (hashFunction(value) + i * c1 + i * i * c2) % capacity; // Get the next key using the quadratic probing algorithm
+      key = (hashFunction(value) + i * c1 + i * i * c2) %
+            capacity; // Get the next key using the quadratic probing algorithm
 
       i++;
     }
@@ -232,7 +241,8 @@ public:
     if (this->table[key].getIP() != "NULL") {
       Nodo colision = table[key];
 
-      vector<string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
+      vector<string> datos = {val.getAccesos()[0], val.getIP(),
+                              to_string(val.getPuertos()[0])};
       colision.increaseData(datos);
 
       table[key] = colision;
@@ -241,27 +251,32 @@ public:
     }
 
     // Inserts the value at the adress given by the key
-    vector<string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
+    vector<string> datos = {val.getAccesos()[0], val.getIP(),
+                            to_string(val.getPuertos()[0])};
     Nodo n_nodo(datos);
     table[key] = n_nodo;
   }
 
   void printIPData(string ip) {
     if (elements > capacity) {
-        cout << "Dato no encontrado" << endl;
-        return;
+      cout << "Dato no encontrado" << endl;
+      return;
     }
 
     long long int value = ipStringToInt(ip);
     int key = hashFunction(value);
 
     int i = 1;
-    while (table[key].getIP() != ip) { // Increasses the iterable until it finds a free space
-        // cout << key << endl;
-        key = (hashFunction(value) + i * c1 + i * i * c2) % this->capacity; // Get the next key using the quadratic probing algorithm
+    while (table[key].getIP() !=
+           ip) { // Increasses the iterable until it finds a free space
+      // cout << key << endl;
+      key = (hashFunction(value) + i * c1 + i * i * c2) %
+            this->capacity; // Get the next key using the quadratic probing
+                            // algorithm
 
-        i++;
+      i++;
     }
+
     cout << "Slot " << key << ": " << table[key].getIP();
     cout << " - " << table[key].getNumAccesos() << endl;
 
