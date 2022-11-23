@@ -76,7 +76,7 @@ vector<string> getData(string line)
         {
             fecha += line[i];
         }
-        else if (count == 3)
+        else if (count == 3 && line[i] != ' ')
         {
             if (!isDominio && line[i] != ':')
                 ip += line[i];
@@ -217,14 +217,18 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             return (int)((fmod((float(val)*a), 1))*capacity); // Multiplication method
         }
 
-        int getKey(int val){ // Quadratic probing - Complexity O(1 + n/m)
+        int getKey(Nodo val){ // Quadratic probing - Complexity O(1 + n/m)
             if (elements==capacity) return -1; // If the hash table is full
 
-            int key = hashFunction(val); // Gets the initial key
+            string value_str = val.getIP();
+            int value = ipStringToInt(value_str);
+            int key = hashFunction(value); // Gets the initial key
 
             int i=1;
             while(table[key].getIP() != "NULL"){ // Increasses the iterable until it finds a free space
-                key = (hashFunction(val) + i*c1 + i*i*c2) % capacity; // Get the next key using the quadratic probing algorithm
+                if (table[key].getIP() == value_str) return key;
+
+                key = (hashFunction(value) + i*c1 + i*i*c2) % capacity; // Get the next key using the quadratic probing algorithm
                 
                 i++;
             }
@@ -233,16 +237,31 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
         }
 
         void insert(Nodo val){ // Inserts a new value - Complexity O(1 + n/m)
-            int key = getKey(ipStringToInt(val.getIP())); // Gets the key
+            int key = getKey(val); // Gets the key
 
             if (key == -1) return; // If full, it exits
 
             this->elements++; // Increasses the number of elements in the table
 
+            if (this->table[key].getIP() != "NULL"){
+              Nodo colision = table[key];
+
+              vector <string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
+              colision.increaseData(datos);
+
+              table[key] = colision;
+
+              return;
+            }
             this->table[key] = val; // Inserts the value at the adress given by the key
         }
 
         void printIPData(string ip){
+          if (elements>capacity){
+            cout << "Dato no encontrado" << endl;
+            return;
+          }
+          
           int value = ipStringToInt(ip);
           int key = hashFunction(value);
 
@@ -251,11 +270,6 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
                 key = (hashFunction(value) + i*c1 + i*i*c2) % this->capacity; // Get the next key using the quadratic probing algorithm
                 
                 i++;
-          }
-
-          if (table[key].getIP() == "NULL"){
-            cout << "Dato no encontrado" << endl;
-            return;
           }
 
           cout << "Slot " << key << ": " << table[key].getIP();
@@ -293,21 +307,22 @@ int main(){
   std::vector<std::string> lines;
   string line;
 
-  quadraticHashTable table(4, 5, 8);
+  quadraticHashTable table(16807, 5, 8);
 
-  
+  /*
   vector <string> arr1 = getData("Aug 28 23:07:49 897.53.984.6:6710 Failed password for root");
   vector <string> arr2 = getData("Aug 28 23:07:49 897.53.984.6:8462 Failed password for root");
-  
+
   Nodo n1(arr1);
 
-  n1.increaseData(arr2);
+  Nodo n2(arr2);
 
   table.insert(n1);
+  table.insert(n2);
 
-  table.printIPData("897.53.984.6");
+  table.printIPData("897.53.984.6");*/
 
-  /*// Open the input file
+  // Open the input file
   infile.open("bitacora.txt");
 
   // If the file is open
@@ -319,10 +334,12 @@ int main(){
     // y añadir a la lista los accesos y puertos 
     // nodo.increaseData(values);
     // de lo contrario crear un nuevo nodo
-    Nodo *newNode = new Nodo(values);
+    Nodo newNode(values);
     // E insertar nodo en hash table
-    //hashTable.insert()
-  }*/
+    table.insert(newNode);
+  }
+
+  //table.printIPData("543.89.843.57");
 
   cout << endl;
   return 0;
