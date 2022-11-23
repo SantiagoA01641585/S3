@@ -215,10 +215,10 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             return val; // Returns the number
         }
 
-        int hashFunction(long long int val){ // Hash function using multiplication method - Complexity O(1)
+        int hashFunction(long long int val){ // Hash function using division method - Complexity O(1)
             float a = (sqrt(5) - 1) / 2; // A constant sugested by Knuth
 
-            int key = (int)((fmod((float(val)*a), 1))*capacity);
+            int key = val%capacity;
 
             return key; // Multiplication method
         }
@@ -229,8 +229,6 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             string value_str = val.getIP();
             long long int value = ipStringToInt(value_str);
             int key = hashFunction(value); // Gets the initial key
-
-            cout << value << endl;
 
             int i=1;
             while(table[key].getIP() != "NULL"){ // Increasses the iterable until it finds a free space
@@ -261,7 +259,11 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
 
               return;
             }
-            this->table[key] = val; // Inserts the value at the adress given by the key
+            
+            // Inserts the value at the adress given by the key
+            vector <string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
+            Nodo n_nodo(datos);
+            table[key] = n_nodo;
         }
 
         void printIPData(string ip){
@@ -270,11 +272,12 @@ class quadraticHashTable{ // Hash table that resolves colissions with quadratic 
             return;
           }
           
-          int value = ipStringToInt(ip);
+          long long int value = ipStringToInt(ip);
           int key = hashFunction(value);
 
           int i=1;
           while(table[key].getIP() != ip){ // Increasses the iterable until it finds a free space
+                //cout << key << endl;
                 key = (hashFunction(value) + i*c1 + i*i*c2) % this->capacity; // Get the next key using the quadratic probing algorithm
                 
                 i++;
@@ -317,32 +320,11 @@ int main(){
 
   quadraticHashTable table(16807, 5, 8);
 
-  
-  /*vector <string> arr1 = getData("Aug 28 23:07:49 897.53.984.6:6710 Failed password for root");
-  vector <string> arr2 = getData("Aug 28 23:07:49 897.53.984.6:8462 Failed password for root");
-
-  Nodo n1(arr1);
-
-  Nodo n2(arr2);
-
-  table.insert(n1);
-  table.insert(n2);
-
-  vector <string> val = getData("Jun 3 13:11:26 543.89.843.57:5249 Failed password for illegal user guest");
-  Nodo ey(val);
-  table.insert(ey);*/
-
-  //table.printIPData("897.53.984.6");
-
   // Open the input file
   infile.open("bitacora.txt");
 
   // If the file is open
-  int cont = 0;
-  bool continua = true;
-  while (getline(infile, line) && continua){
-    cont++;
-    cout << line << " - ";
+  while (getline(infile, line)){
     vector<string> values = getData(line);
     
     // Hashear IP (hashFunction(values[1]))
@@ -354,14 +336,9 @@ int main(){
     Nodo newNode(values);
     // E insertar nodo en hash table
     table.insert(newNode);
-
-    if (cont>=2){
-      continua = false;
-      continue;
-    }
   }
 
-  //table.printIPData("543.89.843.57");
+  table.printIPData("869.78.983.55");
 
   cout << endl;
   return 0;
