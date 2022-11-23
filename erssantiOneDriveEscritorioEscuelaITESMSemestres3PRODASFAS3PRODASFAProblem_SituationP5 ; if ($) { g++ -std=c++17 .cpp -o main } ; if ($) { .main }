@@ -1,0 +1,294 @@
+[33mcommit d04ac579717db0f7fd14596242433a0d1fbf2f44[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Wed Nov 23 00:03:08 2022 +0000
+
+    1.4.7.4.2
+
+[33mcommit 37e8fe088d4551927fe320a025253e6e3a1c72a8[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 22 18:29:40 2022 +0000
+
+    1.4.7.4.1
+
+[33mcommit 5867501f3a0d9ea96b8a594f0f7d2a4755b4bcf7[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Fri Nov 18 19:34:01 2022 +0000
+
+    1.4.7.4.0
+
+[33mcommit 1d54808e4b9980622f8923a9a4fc844fc16c4b14[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 16 20:41:31 2022 -0600
+
+    1.4.7.4
+
+[33mcommit 20bcd54f360eddca845842a13e349dde6877bafd[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 16 20:17:21 2022 -0600
+
+    1.4.7.3.1
+
+[33mcommit 640828f3a792787d38c9d391422d4cfd98ac67d9[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 16 20:17:04 2022 -0600
+
+    1.4.7.3
+
+[33mcommit d9d948c8e91072b3e5304e71da06872bef526bb5[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 16 17:59:07 2022 -0600
+
+    1.4.7.2
+
+[33mcommit 6c8fdefe2921f068f3d34f1492291dffc47a0672[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Nov 15 23:49:28 2022 -0600
+
+    1.4.7.1
+
+[33mcommit 1cfaf4b85637323db485f7222b21da258cc93c7c[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Nov 15 21:54:09 2022 -0600
+
+    1.4.7.0
+
+[33mcommit bb5b47a6cc102da77364df6c7f17a5502999be79[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Nov 15 21:45:01 2022 -0600
+
+    1.4.7
+
+[33mcommit 5ba6c6b6a818e7c0b796dcbe5d3cd8fd3ef35754[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Nov 15 19:19:52 2022 -0600
+
+    1.4.6.13
+
+[33mcommit 150a00c72c9e784574570601644a71f290f73633[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Wed Nov 16 01:16:15 2022 +0000
+
+    1.4.6.12
+
+[33mcommit bc67d56893c5a15d052e1fd965d1a1066f73d1af[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Nov 14 22:04:38 2022 -0600
+
+    1.4.6.11
+
+[33mcommit 8e9bc833c74585e0ad6173d83730ac70e7dc0f01[m
+Merge: fe31fa6 35e5d3d
+Author: Replit user <>
+Date:   Tue Nov 15 04:03:21 2022 +0000
+
+    Merge remote-tracking branch 'origin/main' into main
+
+[33mcommit fe31fa6dfa11017c2a0e04b74d08ff7c7148c1d6[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 04:03:19 2022 +0000
+
+    1.4.6.10
+
+[33mcommit 35e5d3d582a359199103298142318f3c5f92dcf8[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Nov 14 22:02:09 2022 -0600
+
+    1.4.6.9
+
+[33mcommit 62d66037c668f5ee643434b70bf9ae1b243063cd[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 04:00:15 2022 +0000
+
+    1.4.6.8
+
+[33mcommit 26d0bfe435977214f830a873c012b82b10884636[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 03:57:13 2022 +0000
+
+    1.4.6.7
+
+[33mcommit 6efa9e187ef7c75568dc8a43449cc093142e9879[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 01:01:36 2022 +0000
+
+    1.4.6.6.2
+
+[33mcommit 307a1c9cce0a1817ac6cb4c4684820236452f459[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 00:53:05 2022 +0000
+
+    1.4.6.6.1
+
+[33mcommit f59ffce3ec3382c03bf16e8dd4882c2a34ad2f09[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Tue Nov 15 00:41:12 2022 +0000
+
+    1.4.6.6.0
+
+[33mcommit cc6b1ccda433633f44620e86dea9834c5d514978[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Nov 14 14:05:59 2022 -0600
+
+    1.4.6.6
+
+[33mcommit 3ae7daffe40603d7ed281f01c0c8c1a3bc10573f[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Mon Nov 14 18:53:00 2022 +0000
+
+    1.4.6.5
+
+[33mcommit 5117647cdce9068c668683c4db881d01ba01d11c[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Mon Nov 14 18:24:16 2022 +0000
+
+    1.4.6.4
+
+[33mcommit b85cd2606df65409096e38de146f874b5d643b7a[m
+Author: Santiago Vera <88670016+SantiagoA01641585@users.noreply.github.com>
+Date:   Mon Nov 14 18:06:56 2022 +0000
+
+    1.4.6.3
+
+[33mcommit dcb16c54548a4d023a95651fcf8d612d6ce427be[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 9 18:39:01 2022 -0600
+
+    1.4.6.2
+
+[33mcommit f466cbc12b1d1640a6a33d885357419fdd703f3f[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 9 18:13:16 2022 -0600
+
+    1.4.6.1
+
+[33mcommit d6a77a026556a01baa5595efa512d077443646c2[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Nov 7 23:35:21 2022 -0600
+
+    1.4.6.0
+
+[33mcommit c949d5107f5065a80358fe7e3f616eb070fafb7e[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Nov 2 21:03:04 2022 -0600
+
+    1.4.5.17
+
+[33mcommit c2e485596c62d3d3a1a87ed9e9e4d98574a18a32[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Nov 1 23:42:04 2022 -0600
+
+    1.4.5.16
+
+[33mcommit 277385656f904a6cf91e59a33dc9920ff8f2e5e3[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 31 18:00:00 2022 -0600
+
+    1.4.5.15
+
+[33mcommit d15ceabf41695a1388983f5b6d7625ff0f37e48e[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 31 07:57:13 2022 -0600
+
+    1.4.5.14
+
+[33mcommit 998609e078460c847f7277e8ac2d3b77f7f95ff4[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 30 22:48:23 2022 -0600
+
+    1.4.5.13
+
+[33mcommit 8ca3af43ea9ab1a3d95a27527efff41ef65c4e24[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Oct 26 22:19:20 2022 -0500
+
+    1.4.5.12
+
+[33mcommit c01bca8aa3db0a55efde89073e79c89342fdbbb6[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Wed Oct 26 12:44:44 2022 -0500
+
+    1.4.5.10
+
+[33mcommit e38f205ab5696dba241c89712249865d6c0ba045[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Oct 25 18:20:10 2022 -0500
+
+    1.4.5.8
+
+[33mcommit 44c83d05103c48915c5bb97f83262b9d92ee0688[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Tue Oct 25 01:29:16 2022 -0500
+
+    1.4.5.7
+
+[33mcommit 7664861fa2634e8936b359d78a9299b546d20e61[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 22:10:40 2022 -0500
+
+    1.4.5.7
+
+[33mcommit 1bb3f8a2ab28cb9a52f33fd72cde884f4eae5fab[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 14:45:23 2022 -0500
+
+    1.4.5.6
+
+[33mcommit 4eaa718e9a9f38c2270fccf0ff2c0e81baef56c8[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 14:44:02 2022 -0500
+
+    1.4.5.5
+
+[33mcommit 2904b506f8daf4d27e98fb3caadf6a36b630ee36[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 14:05:57 2022 -0500
+
+    1.4.5.4
+
+[33mcommit 68fa63f0e7208e33bb85e4ee5d8305ef479bed29[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 13:34:11 2022 -0500
+
+    1.4.5.3
+
+[33mcommit f4eece0c960fb51c805050d6e268f163c09578bc[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 13:33:54 2022 -0500
+
+    1.4.5.1
+
+[33mcommit 06eebf38cbb7d492435a704181f7c5bdd1fda12e[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Sun Oct 23 03:51:48 2022 -0500
+
+    1.4.5.0
+
+[33mcommit 585b6a057223a5ae33f35fb6e1393dd2f5973d7f[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 17 20:56:49 2022 -0500
+
+    1.4.3.1
+
+[33mcommit 7623e9a0e4e4225d40b44de743b05b0bb75ed336[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 17 20:55:21 2022 -0500
+
+    1.4.3.0
+
+[33mcommit 8a5da8ae85530f1d2d07dae53087f7cf927cb95d[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 17 20:12:13 2022 -0500
+
+    1.4.2.3
+
+[33mcommit 779ef879060b4f7e5f188f093b7740d797f73410[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 17 19:21:26 2022 -0500
+
+    1.4.2.2
+
+[33mcommit 3432ff53cfc2f6740ddd29cf223a626bbeface76[m
+Author: SantiagoA01641585 <a01641585@itesm.mx>
+Date:   Mon Oct 17 15:14:12 2022 -0500
+
+    1.4.2
