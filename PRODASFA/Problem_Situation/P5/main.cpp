@@ -1,55 +1,55 @@
 // Programa con SHA-256
 
-#include <iostream>
-#include <math.h>
-#include <list>
-#include <vector>
 #include <fstream>
+#include <iostream>
+#include <list>
+#include <math.h>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
 //-------------------------------------------------------------------------
 
 // Complexity O(n)
-vector<long long int> separateIP(string ip) // Separates an IP, from a string into a vector
-{
-    istringstream iss(ip);
-    std::vector<long long int> tokens;
-    std::string token;
-    while (std::getline(iss, token, '.')) // Fetches for the "."
-    {
-        if (!token.empty())
-            tokens.push_back(stoll(token)); // Pushes the token back
-    }
+vector<long long int>
+separateIP(string ip) { // Separates an IP, from a string into a vector
+  istringstream iss(ip);
+  std::vector<long long int> tokens;
+  std::string token;
+  while (std::getline(iss, token, '.')) // Fetches for the "."
+  {
+    if (!token.empty())
+      tokens.push_back(stoll(token)); // Pushes the token back
+  }
 
-    return tokens; // Returns the vector
+  return tokens; // Returns the vector
 }
 
-long long int ipStringToInt(string ip){
-  vector <long long int> arr = separateIP(ip);
+long long int ipStringToInt(string ip) {
+  vector<long long int> arr = separateIP(ip);
 
   long long int res = 0;
-  for (int  i = 0; i<arr.size(); i++){
-    switch (i){
-      case 0:
-        res = arr[0] * 10000000;
-        break;
+  for (int i = 0; i < arr.size(); i++) {
+    switch (i) {
+    case 0:
+      res = arr[0] * 10000000;
+      break;
 
-      case 1:
-        res += arr[1] * 100000;
-        break;
+    case 1:
+      res += arr[1] * 100000;
+      break;
 
-      case 2:
-        res += arr[2] * 100;
-        break;
+    case 2:
+      res += arr[2] * 100;
+      break;
 
-      case 3:
-        res += arr[3];
-        break;
-      
-      default:
-        break;
+    case 3:
+      res += arr[3];
+      break;
+
+    default:
+      break;
     }
   }
 
@@ -57,261 +57,251 @@ long long int ipStringToInt(string ip){
 }
 
 // Complexity O(n)
-vector<string> getData(string line)
-{
-    int count = 0;
-    string fecha = "";
-    string ip = "";
-    string dominio = "";
-    bool isDominio = false;
+vector<string> getData(string line) {
+  int count = 0;
+  string fecha = "";
+  string ip = "";
+  string dominio = "";
+  bool isDominio = false;
 
-    for (int i = 0; i < line.length(); i++) // Iterates the string
+  for (int i = 0; i < line.length(); i++) // Iterates the string
+  {
+    if (line[i] == ' ') // Counts if there is a space
     {
-        if (line[i] == ' ') // Counts if there is a space
-        {
-            count++;
-        }
-
-        if (count < 3)
-        {
-            fecha += line[i];
-        }
-        else if (count == 3 && line[i] != ' ')
-        {
-            if (!isDominio && line[i] != ':')
-                ip += line[i];
-            else if (line[i] != ':')
-                dominio += line[i];
-
-            if (line[i] == ':')
-                isDominio = true;
-        }
+      count++;
     }
 
-    return {fecha, ip, dominio}; // Returns the vector
+    if (count < 3) {
+      fecha += line[i];
+    } else if (count == 3 && line[i] != ' ') {
+      if (!isDominio && line[i] != ':')
+        ip += line[i];
+      else if (line[i] != ':')
+        dominio += line[i];
+
+      if (line[i] == ':')
+        isDominio = true;
+    }
+  }
+
+  return {fecha, ip, dominio}; // Returns the vector
 }
 
 //------------------------------------------------------------------
 
-class Nodo{
-  private:
-    // Atributes
-    string ip;
-    int num_accesos;
-    vector <string> accesos;
-    vector <int> puertos;
+class Nodo {
+private:
+  // Atributes
+  string ip;
+  int num_accesos;
+  vector<string> accesos;
+  vector<int> puertos;
 
-  public:
-    // Constructor
-    Nodo(){
-      this->ip = "NULL";
-      this->num_accesos = 0;
-      this->accesos.clear();
-      this->puertos.clear();
-    }
+public:
+  // Constructor
+  Nodo() {
+    this->ip = "NULL";
+    this->num_accesos = 0;
+    this->accesos.clear();
+    this->puertos.clear();
+  }
 
-    Nodo(vector<string> values){
-      this->ip = values[1];
-      this->num_accesos = 1;
+  Nodo(vector<string> values) {
+    this->ip = values[1];
+    this->num_accesos = 1;
 
-      this->accesos.clear();
-      this->puertos.clear();
-      this->accesos.push_back(values[0]);
-      this->puertos.push_back(stoi(values[2]));
-    }
+    this->accesos.clear();
+    this->puertos.clear();
+    this->accesos.push_back(values[0]);
+    this->puertos.push_back(stoi(values[2]));
+  }
 
-    // Getters & Setters
-    string getIP(){
-      return this->ip;
-    }
+  // Getters & Setters
+  string getIP() { return this->ip; }
 
-    void setIP(string ip){
-      this->ip = ip;
-    }
+  void setIP(string ip) { this->ip = ip; }
 
-    int getNumAccesos(){
-      return this->num_accesos;
-    }
+  int getNumAccesos() { return this->num_accesos; }
 
-    void setNumAccesos(int num_accesos){
-      this->num_accesos = num_accesos;
-    }
+  void setNumAccesos(int num_accesos) { this->num_accesos = num_accesos; }
 
-    vector <string> getAccesos(){
-      return this->accesos;
-    }
+  vector<string> getAccesos() { return this->accesos; }
 
-    vector <int> getPuertos(){
-      return this->puertos;
-    }
+  vector<int> getPuertos() { return this->puertos; }
 
-    void increaseData(vector<string> data){
-      this->num_accesos++;
-      this->accesos.push_back(data[0]);
-      this->puertos.push_back(stoi(data[2]));
-    }
+  void increaseData(vector<string> data) {
+    this->num_accesos++;
+    this->accesos.push_back(data[0]);
+    this->puertos.push_back(stoi(data[2]));
+  }
 };
 
-class quadraticHashTable{ // Hash table that resolves colissions with quadratic probing
-    private:
-        // Atributes
-        int capacity;
-        Nodo* table;
+class quadraticHashTable { // Hash table that resolves colissions with quadratic
+                           // probing
+private:
+  // Atributes
+  int capacity;
+  Nodo *table;
 
-        int c1, c2; // Constants for the probing
+  int c1, c2; // Constants for the probing
 
-        int elements;
+  int elements;
 
-    public:
-        // Constructors
-        quadraticHashTable(int capacity, int c1, int c2){ // Sets the capacity and the constants
-            this->capacity = getPrime(capacity); 
-            this->c1 = getPrime(c1);
-            this->c2 = getPrime(c2);
-            table = new Nodo[this->capacity];
+public:
+  // Constructors
+  quadraticHashTable(int capacity, int c1,
+                     int c2) { // Sets the capacity and the constants
+    this->capacity = getPrime(capacity);
+    this->c1 = getPrime(c1);
+    this->c2 = getPrime(c2);
+    table = new Nodo[this->capacity];
 
-            for (int i = 0; i < this->capacity; i++){
-              table[i].setIP("NULL");
-            }
+    for (int i = 0; i < this->capacity; i++) {
+      table[i].setIP("NULL");
+    }
 
-            this->elements=0;
-        }
+    this->elements = 0;
+  }
 
-        // Getters & Setters
-        int getCapacity() const{
-            return this->capacity;
-        }
+  // Getters & Setters
+  int getCapacity() const { return this->capacity; }
 
-        void setCapacity(int capacity){
-            this->capacity = capacity;
-        }
+  void setCapacity(int capacity) { this->capacity = capacity; }
 
-        Nodo* getTable(){
-            return this->table;
-        }
+  Nodo *getTable() { return this->table; }
 
-        void setTable(Nodo* table){
-            this->table = table;
-        }
+  void setTable(Nodo *table) { this->table = table; }
 
-        // Methods
-        bool checkPrime(int val){ // Checks if the value is a prime number - Complexity O(sqrt(n))
-            if (val==0 || val==1) return false;
+  // Methods
+  bool checkPrime(int val) { // Checks if the value is a prime number -
+                             // Complexity O(sqrt(n))
+    if (val == 0 || val == 1)
+      return false;
 
-            for (int i=2; i*i<=val; i++){
-                if (val%i == 0) return false;
-            }
+    for (int i = 2; i * i <= val; i++) {
+      if (val % i == 0)
+        return false;
+    }
 
-            return true;
-        }
+    return true;
+  }
 
-        int getPrime(int val){ // Goes to the next prime number - Complexity O((n^2)(sqrt(n))) (Given by Andrica's Conjecture)
-            if (val%2 == 0) val++; // Makes de value odd as all prime numbers after 2 have to be odd
+  int getPrime(int val) { // Goes to the next prime number - Complexity
+                          // O((n^2)(sqrt(n))) (Given by Andrica's Conjecture)
+    if (val % 2 == 0)
+      val++; // Makes de value odd as all prime numbers after 2 have to be odd
 
-            while (!checkPrime(val)){ // While the number is not a prime number
-                val += 2; // Increasses by two
-            }
+    while (!checkPrime(val)) { // While the number is not a prime number
+      val += 2;                // Increasses by two
+    }
 
-            return val; // Returns the number
-        }
+    return val; // Returns the number
+  }
 
-        int hashFunction(long long int val){ // Hash function using division method - Complexity O(1)
-            float a = (sqrt(5) - 1) / 2; // A constant sugested by Knuth
+  int hashFunction(long long int val) { // Hash function using division method -
+                                        // Complexity O(1)
+    float a = (sqrt(5) - 1) / 2;        // A constant sugested by Knuth
 
-            int key = val%capacity;
+    int key = val % capacity;
 
-            return key; // Multiplication method
-        }
+    return key; // Multiplication method
+  }
 
-        int getKey(Nodo val){ // Quadratic probing - Complexity O(1 + n/m)
-            if (elements==capacity) return -1; // If the hash table is full
+  int getKey(Nodo val) { // Quadratic probing - Complexity O(1 + n/m)
+    if (elements == capacity)
+      return -1; // If the hash table is full
 
-            string value_str = val.getIP();
-            long long int value = ipStringToInt(value_str);
-            int key = hashFunction(value); // Gets the initial key
+    string value_str = val.getIP();
+    long long int value = ipStringToInt(value_str);
+    int key = hashFunction(value); // Gets the initial key
 
-            int i=1;
-            while(table[key].getIP() != "NULL"){ // Increasses the iterable until it finds a free space
-                if (table[key].getIP() == value_str) return key;
+    int i = 1;
+    while (table[key].getIP() !=
+           "NULL") { // Increasses the iterable until it finds a free space
+      if (table[key].getIP() == value_str)
+        return key;
 
-                key = (hashFunction(value) + i*c1 + i*i*c2) % capacity; // Get the next key using the quadratic probing algorithm
-                
-                i++;
-            }
+      key = (hashFunction(value) + i * c1 + i * i * c2) %
+            capacity; // Get the next key using the quadratic probing algorithm
 
-            return key; // 
-        }
+      i++;
+    }
 
-        void insert(Nodo val){ // Inserts a new value - Complexity O(1 + n/m)
-            int key = getKey(val); // Gets the key
+    return key; //
+  }
 
-            if (key == -1) return; // If full, it exits
+  void insert(Nodo val) {  // Inserts a new value - Complexity O(1 + n/m)
+    int key = getKey(val); // Gets the key
 
-            this->elements++; // Increasses the number of elements in the table
+    if (key == -1)
+      return; // If full, it exits
 
-            if (this->table[key].getIP() != "NULL"){
-              Nodo colision = table[key];
+    this->elements++; // Increasses the number of elements in the table
 
-              vector <string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
-              colision.increaseData(datos);
+    if (this->table[key].getIP() != "NULL") {
+      Nodo colision = table[key];
 
-              table[key] = colision;
+      vector<string> datos = {val.getAccesos()[0], val.getIP(),
+                              to_string(val.getPuertos()[0])};
+      colision.increaseData(datos);
 
-              return;
-            }
-            
-            // Inserts the value at the adress given by the key
-            vector <string> datos = {val.getAccesos()[0], val.getIP(), to_string(val.getPuertos()[0])};
-            Nodo n_nodo(datos);
-            table[key] = n_nodo;
-        }
+      table[key] = colision;
 
-        void printIPData(string ip){
-          if (elements>capacity){
-            cout << "Dato no encontrado" << endl;
-            return;
-          }
-          
-          long long int value = ipStringToInt(ip);
-          int key = hashFunction(value);
+      return;
+    }
 
-          int i=1;
-          while(table[key].getIP() != ip){ // Increasses the iterable until it finds a free space
-                //cout << key << endl;
-                key = (hashFunction(value) + i*c1 + i*i*c2) % this->capacity; // Get the next key using the quadratic probing algorithm
-                
-                i++;
-          }
+    // Inserts the value at the adress given by the key
+    vector<string> datos = {val.getAccesos()[0], val.getIP(),
+                            to_string(val.getPuertos()[0])};
+    Nodo n_nodo(datos);
+    table[key] = n_nodo;
+  }
 
-          cout << "Slot " << key << ": " << table[key].getIP();
-          cout << " - " << table[key].getNumAccesos() << endl;
+  void printIPData(string ip) {
+    if (elements > capacity) {
+      cout << "Dato no encontrado" << endl;
+      return;
+    }
 
-        
-          vector <int> port = table[key].getPuertos();
-          vector <string> access = table[key].getAccesos();
-          for (int j=0; j<port.size(); j++){
-            cout << "\t" << port[j] << " - " << access[j] << endl;
-          }
-          
-        }
+    long long int value = ipStringToInt(ip);
+    int key = hashFunction(value);
 
-        void printHashTable(){ // Prints the hash table - Complexity O(n)
-            for (int i=0; i<capacity; i++){
-                cout << "Slot " << i << ": " << table[i].getIP();
-                cout << " - " << table[i].getNumAccesos() << endl;
+    int i = 1;
+    while (table[key].getIP() !=
+           ip) { // Increasses the iterable until it finds a free space
+      // cout << key << endl;
+      key = (hashFunction(value) + i * c1 + i * i * c2) %
+            this->capacity; // Get the next key using the quadratic probing
+                            // algorithm
 
-              
-                vector <int> port = table[i].getPuertos();
-                vector <string> access = table[i].getAccesos();
-                for (int j=0; j<port.size(); j++){
-                  cout << "\t" << port[j] << " - " << access[j] << endl;
-                }
-            }
-        }
+      i++;
+    }
 
+    cout << "Slot " << key << ": " << table[key].getIP();
+    cout << " - " << table[key].getNumAccesos() << endl;
+
+    vector<int> port = table[key].getPuertos();
+    vector<string> access = table[key].getAccesos();
+    for (int j = 0; j < port.size(); j++) {
+      cout << "\t" << port[j] << " - " << access[j] << endl;
+    }
+  }
+
+  void printHashTable() { // Prints the hash table - Complexity O(n)
+    for (int i = 0; i < capacity; i++) {
+      cout << "Slot " << i << ": " << table[i].getIP();
+      cout << " - " << table[i].getNumAccesos() << endl;
+
+      vector<int> port = table[i].getPuertos();
+      vector<string> access = table[i].getAccesos();
+      for (int j = 0; j < port.size(); j++) {
+        cout << "\t" << port[j] << " - " << access[j] << endl;
+      }
+    }
+  }
 };
 
-int main(){
+int main() {
   ifstream infile;
   ofstream outfile;
 
@@ -324,13 +314,13 @@ int main(){
   infile.open("bitacora.txt");
 
   // If the file is open
-  while (getline(infile, line)){
+  while (getline(infile, line)) {
     vector<string> values = getData(line);
-    
+
     // Hashear IP (hashFunction(values[1]))
     // Ver si ya existe un nodo en la hash table
-    // Si ya existe, incementar el numero de accesos 
-    // y añadir a la lista los accesos y puertos 
+    // Si ya existe, incementar el numero de accesos
+    // y añadir a la lista los accesos y puertos
     // nodo.increaseData(values);
     // de lo contrario crear un nuevo nodo
     Nodo newNode(values);
